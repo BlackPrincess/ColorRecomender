@@ -251,6 +251,8 @@
 
     <script type="text/javascript" src="./js/javascriptx.min.js"></script>
 
+    <script type="text/javascript" src="./dist/index.min.js"></script>
+
     <script type="text/javascript">
     	$("#base_color_hex").focus(function() {
     		$("#type_hex").click();
@@ -374,63 +376,64 @@
     	// カラーホイール
     	var changeColorWheel = function(origin) {
     		var paper = papers.colorWheel;
-			paper.clear();
-			// 12色作る
-			var colors = [
-				origin,
-				origin.addHue(30),
-				origin.addHue(60),
-				origin.addHue(90),
-				origin.addHue(120),
-				origin.addHue(150),
-				origin.addHue(180),
-				origin.addHue(210),
-				origin.addHue(240),
-				origin.addHue(270),
-				origin.addHue(300)
-			];
-			svgColorWheel(paper, colors);
+  			paper.clear();
+  			// 12色作る
+  			var colors = [
+  				origin,
+  				origin.addHue(30),
+  				origin.addHue(60),
+  				origin.addHue(90),
+  				origin.addHue(120),
+  				origin.addHue(150),
+  				origin.addHue(180),
+  				origin.addHue(210),
+  				origin.addHue(240),
+  				origin.addHue(270),
+  				origin.addHue(300)
+  			];
+  			svgColorWheel(paper, colors);
     	};
 
     	// てきとーなからーほいーる
     	function svgColorWheel(paper, colors) {
-    		var center = {x: paper.width / 2, 
-    			y: paper.height / 2};
-			paper.clear();
-    		// 書くカラーホイールの色を描写
-			var diffRad = 360 / colors.length;
-			colors.forEach(function(color, i) {
-				var start = (90 - diffRad / 2) + i * diffRad;
-				var end = start + diffRad;
-				var txtAnimate = 100;
-				var circleAnimate = 1000;
-				var delta = 30;
-				var txt = paper.text(center.x,
-					center.y,
-					color.toCssHexCode()).attr({
-						'font-size':"20px", 
-						'fill': "#899299",
-						'opacity':0
-					});
-				paper.circleSector(center.x, center.y, paper.width * 2 / 5, start, end)
-					.attr({'fill' : color.toCssHexCode(),
-						'stroke-width':0 })
-					.mouseover(function () {
-		                this.stop().animate({transform: "s1.1 1.1 " + center.x + " " + center.y}, circleAnimate, "elastic");
-		                txt.toFront();
-		                txt.stop().animate({opacity: 1}, txtAnimate, "elastic");
-		            }).mouseout(function () {
-		                this.stop().animate({transform: ""}, circleAnimate, "elastic");
-		                txt.stop().animate({opacity: 0}, txtAnimate);
-		            });
+        drawColorWheel(paper, colors);
+   //  		var center = {x: paper.width / 2, 
+   //  			y: paper.height / 2};
+  	// 		paper.clear();
+   //    		// 書くカラーホイールの色を描写
+  	// 		var diffRad = 360 / colors.length;
+  	// 		colors.forEach(function(color, i) {
+  	// 			var start = (90 - diffRad / 2) + i * diffRad;
+  	// 			var end = start + diffRad;
+  	// 			var txtAnimate = 100;
+  	// 			var circleAnimate = 1000;
+  	// 			var delta = 30;
+  	// 			var txt = paper.text(center.x,
+  	// 				center.y,
+  	// 				color.toCssHexCode()).attr({
+  	// 					'font-size':"20px", 
+  	// 					'fill': "#899299",
+  	// 					'opacity':0
+  	// 				});
+  	// 			paper.circleSector(center.x, center.y, paper.width * 2 / 5, start, end)
+  	// 				.attr({'fill' : color.toCssHexCode(),
+  	// 					'stroke-width':0 })
+  	// 				.mouseover(function () {
+  	// 	                this.stop().animate({transform: "s1.1 1.1 " + center.x + " " + center.y}, circleAnimate, "elastic");
+  	// 	                txt.toFront();
+  	// 	                txt.stop().animate({opacity: 1}, txtAnimate, "elastic");
+  	// 	            }).mouseout(function () {
+  	// 	                this.stop().animate({transform: ""}, circleAnimate, "elastic");
+  	// 	                txt.stop().animate({opacity: 0}, txtAnimate);
+  	// 	            });
 
-			});
+			// });
 
-			// 真ん中を白くするため
-			paper.circle(center.x, center.y, paper.width / 3)
-				.attr({'fill' : "#ffffff",
-					'stroke-width':0 });
-    	}
+			// // 真ん中を白くするため
+			// paper.circle(center.x, center.y, paper.width / 3)
+			// 	.attr({'fill' : "#ffffff",
+			// 		'stroke-width':0 });
+  	}
 
     	var papers;
     	$(function(){
