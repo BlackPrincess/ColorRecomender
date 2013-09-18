@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Color Recomender</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+  
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../../assets/js/html5shiv.js"></script>
+      <script src="../../assets/js/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">
+    /* Move down content because we have a fixed navbar that is 50px tall */
+	  body {
+	    padding-top: 50px;
+	    padding-bottom: 20px;
+	  }
+	  .svg {
+	  	width:250px;
+	  	height:250px;
+	  }
+    </style>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Color Recomender</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">メニュー</a></li>
+            <li><a href="#about">メニュー</a></li>
+            <li><a href="#contact">メニュー</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">メニュー<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">メニュー</a></li>
+                <li><a href="#">メニュー</a></li>
+                <li><a href="#">メニュー</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">メニュー</li>
+                <li><a href="#">メニュー</a></li>
+                <li><a href="#">メニュー</a></li>
+              </ul>
+            </li>
+          </ul>
+          
+        </div><!--/.navbar-collapse -->
+      </div>
+    </div>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Color Recomender</h1>
+        <p>ちょっと色を選ぶのに迷った時、そっと機械的な値をリコメンドしてくれます</p>
+        <!--<p><a class="btn btn-primary btn-lg">Learn more &raquo;</a></p>-->
+      </div>
+    </div>
+
+    <div class="container">
+    <!-- Example row of columns -->
+    <!--<div class="row">
+      <div class="col-lg-4">
+        <h2>Heading</h2>
+        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+        <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
+        </div>
+        <div class="col-lg-4">
+        <h2>Heading</h2>
+        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+        <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
+        </div>
+        <div class="col-lg-4">
+        <h2>Heading</h2>
+        <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+        <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
+      </div>
+    </div>-->
+
+    
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="row">
+            <form class="form-horizontal" role="form">
+          <!-- Hex -->
+            <div class="form-group">
+              <label for="base_color_hex" class="col-lg-4 control-label">HEX</label>
+              <div class="col-lg-8">
+                <input type="text" class="form-control" id="base_color_hex" placeholder="#000000 ~ #ffffff">
+              </div>
+            </div>
+            <!-- RGB -->
+            <div class="form-group">
+              <label for="base_color_r" class="col-lg-4 control-label">RGB</label>
+              <div class="col-lg-8">
+                <ul class="list-unstyled">
+                  <li class="row">
+                    <div class="col-lg-3"><label for="base_color_r" class="col-lg-6 control-label">R</label></div>
+                    <div class="col-lg-9">
+                      <input type="text" class="form-control input-sm base_color_255" id="base_color_r" placeholder="0 ~ 255">
+                    </div>
+                  </li>
+                  <li class="row">
+                    <div class="col-lg-3"><label for="base_color_g" class="col-lg-6 control-label">G</label></div>
+                    <div class="col-lg-9">
+                      <input type="text" class="form-control input-sm base_color_255" id="base_color_g" placeholder="0 ~ 255">
+                    </div>
+                  </li>
+                  <li class="row">
+                    <div class="col-lg-3"><label for="base_color_b" class="col-lg-6 control-label">B</label></div>
+                    <div class="col-lg-9">
+                      <input type="text" class="form-control input-sm base_color_255" id="base_color_b" placeholder="0 ~ 255">
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- HSV -->
+            <div class="form-group">
+              <label for="base_color_h" class="col-lg-4 control-label">HSV</label>
+              <div class="col-lg-8">
+                <ul class="list-unstyled">
+                  <li class="row">
+                    <div class="col-lg-3"><label for="base_color_h" class="col-lg-6 control-label">H</label></div>
+                    <div class="col-lg-9">
+                      <input type="text" class="form-control input-sm base_color_359" id="base_color_h" placeholder="0 ~ 359">
+                    </div>
+                  </li>
+                  <li class="row">
+                    <div class="col-lg-3"><label for="base_color_s" class="col-lg-6 control-label">S</label></div>
+                    <div class="col-lg-9">
+                      <input type="text" class="form-control input-sm base_color_255" id="base_color_s" placeholder="0 ~ 255">
+                    </div>
+                  </li>
+                  <li class="row">
+                    <div class="col-lg-3"><label for="base_color_v" class="col-lg-6 control-label">V</label></div>
+                    <div class="col-lg-9">
+                      <input type="text" class="form-control input-sm base_color_255" id="base_color_v" placeholder="0 ~ 255">
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- Controll -->
+            <div class="form-group">
+        	  <label for="" class="col-lg-4 control-label">Type</label>
+              <div class="col-lg-8" style="text-align:right;">
+                <label class="radio-inline"><input type="radio" name="type" id="type_hex" value="hex" checked>HEX</label>
+                <label class="radio-inline"><input type="radio" name="type" id="type_rgb" value="rgb">RGB</label>
+                <label class="radio-inline"><input type="radio" name="type" id="type_hsv" value="hsv">HSV</label>
+              </div>
+          	</div>
+          	<div class="form-group">
+              <div class="col-lg-offset-2 col-lg-10">
+                <button class="btn btn-primary pull-right" id="execute">Execute</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-lg-9" id="result">
+      	<div class="row">
+	        <div class="col-lg-4" id="complementary">
+	        	<div class="row" style="margin: 0 3px 0 3px;">
+		        	<h2>補色</h2>
+		        	<div class="col-lg-6 origin" style="height:20px;"></div>
+		        	<div class="col-lg-6 complementary" style="height:20px;"></div>
+
+		        	<div class="col-lg-6 origin" style="height:20px;"></div>
+		        	<div class="col-lg-6 complementary" style="height:20px;"></div>
+
+		        	<div class="col-lg-6 origin" style="height:20px;"></div>
+		        	<div class="col-lg-6 complementary" style="height:20px;"></div>
+
+		        	<div class="col-lg-6 origin" style="height:20px;"></div>
+		        	<div class="col-lg-6 complementary" style="height:20px;"></div>
+
+		        	<div class="col-lg-6 origin" style="height:20px;"></div>
+		        	<div class="col-lg-6 complementary" style="height:20px;"></div>
+	        	</div>
+	        </div><!-- #complementary -->
+	        <div class="col-lg-4" id="triad">
+	        	<div class="row" style="margin: 0 3px 0 3px;">
+		        	<h2>トライアド</h2>
+		        	<div id="triad_wheel_svg" class="svg"></div>
+	        	</div>
+	        </div><!-- #triad -->
+	        <div class="col-lg-4" id="hexard">
+	        	<div class="row" style="margin: 0 3px 0 3px;">
+		        	<h2>ヘクサード</h2>
+		        	<div id="hexard_wheel_svg" class="svg"></div>
+	        	</div>
+	        </div><!-- #hexard -->
+        </div>
+        <div class="row">
+        	<div class="col-lg-4" id="analogous">
+	        	<div class="row" style="margin: 0 3px 0 3px;">
+		        	<h2>類似色</h2>
+		        	<div class="col-lg-6 origin" style="height:20px;"></div>
+		        	<div class="col-lg-6 analogous" style="height:20px;"></div>
+		        	<div class="col-lg-6 origin" style="height:20px;"></div>
+		        	<div class="col-lg-6 analogous" style="height:20px;"></div>
+		        	<div class="col-lg-6 origin" style="height:20px;"></div>
+		        	<div class="col-lg-6 analogous" style="height:20px;"></div>
+		        	<div class="col-lg-6 origin" style="height:20px;"></div>
+		        	<div class="col-lg-6 analogous" style="height:20px;"></div>
+		        	<div class="col-lg-6 origin" style="height:20px;"></div>
+		        	<div class="col-lg-6 analogous" style="height:20px;"></div>
+		        	<div class="col-lg-6 origin" style="height:20px;"></div>
+		        	<div class="col-lg-6 analogous" style="height:20px;"></div>
+
+	        	</div>
+	        </div><!-- #analogous -->
+	        <div class="col-lg-4" id="color_wheel">
+	        	<div class="row" style="margin: 0 3px 0 3px;">
+		        	<h2>12色カラーホイール</h2>
+		        	<div id="color_wheel_svg" class="svg"></div>
+	        	</div>
+        	</div>
+        </div>
+        <div class="row">
+        	
+    	</div>
+      </div>
+    </div>
+
+    <hr>
+    <footer>
+      <p>&copy; toshiki.kurokawa 2013</p>
+    </footer>
+    </div> <!-- /container -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="./js/jquery-1.10.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="./js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="./js/raphael-min.js"></script>
+    <!-- Include my scripts -->
+    <script type="text/javascript" src="./js/Color.js"></script>
+
+    <script type="text/javascript" src="./js/javascriptx.min.js"></script>
+
+    <script type="text/javascript">
+    	$("#base_color_hex").focus(function() {
+    		$("#type_hex").click();
+    	});
+    	$("#base_color_r").focus(function() {
+    		$("#type_rgb").click();
+    	});
+    	$("#base_color_h").focus(function() {
+    		$("#type_hsv").click();
+    	});
+
+    	// input support
+    	$(".base_color_255").change(function() {
+    		var val = ('' + $(this).val()).toFloatOrZero() % 256;
+    		$(this).val(val);
+    	});
+
+    	$(".base_color_359").change(function() {
+    		var val = ('' + $(this).val()).toFloatOrZero() % 360;
+    		$(this).val(val);
+    	});
+    </script>
+
+    <script type="text/javascript">
+    	// クソコード多数。後で作り直す
+    	$("#execute").click(function(ev) {
+    		var origin = getOriginColor();
+    		changeComplementary(origin);
+    		changeTriad(origin);
+    		changeHexard(origin);
+    		changeAnalogous(origin);
+    		changeColorWheel(origin);
+    		return false;
+    	});
+
+    	var getOriginColor = function() {
+    		var type = $("input[name=type]:checked").val().toLowerCase();
+    		switch(type) {
+    			case "hex":
+    				var hex = $("#base_color_hex").val();
+    				return princessJs.Color.createFromHexCode(hex);
+				case "rgb":
+					var r = $("#base_color_r").val().toInt();
+					var g = $("#base_color_g").val().toInt();
+					var b = $("#base_color_b").val().toInt();
+					return princessJs.Color.create(r, g, b);
+				case "hsv":
+					var h = $("#base_color_h").val().toInt();
+					var s = $("#base_color_s").val().toInt();
+					var v = $("#base_color_v").val().toInt();
+					return princessJs.Color.createFromHSV(h, s, v);
+    		}
+    	};
+    	// 補色の部分
+    	var changeComplementary = function(origin) {
+    		var base = origin.addHue(180);
+    		var originHexCode = origin.toCssHexCode();
+    		$("#complementary .origin").css("background-color", originHexCode);
+    		$("#complementary .origin").text(originHexCode);
+    		var gradationRate = -20;
+
+    		// origin divs
+    		$("#complementary .origin").each(function() {
+    			var index = $("#complementary .origin").index(this);
+    			var complementaryHexCode = base.addSaturation(gradationRate * index).toCssHexCode();
+    			$(this).css("color", complementaryHexCode);
+    			$(this).text(complementaryHexCode);
+    		});
+
+    		// complementary divs
+    		$("#complementary .complementary").css("color", originHexCode);
+    		$("#complementary .complementary").each(function() {
+    			var index = $("#complementary .complementary").index(this);
+    			var complementaryHexCode = base.addSaturation(gradationRate * index).toCssHexCode();
+    			$(this).css("background-color", complementaryHexCode);
+    			$(this).text(complementaryHexCode);
+    		});
+    	};
+
+    	// トライアドの部分
+    	var changeTriad = function(origin) {
+    		var paper = papers.triadWheel;
+    		var colors = [
+    			origin,
+    			origin.addHue(120),
+    			origin.addHue(240)
+			];
+
+    		svgColorWheel(paper, colors);
+    	};
+
+    	// へくさーど。
+    	var changeHexard = function(origin) {
+    		var paper = papers.hexardWheel;
+    		var colors = [
+    			origin,
+    			origin.addHue(60),
+    			origin.addHue(120),
+    			origin.addHue(180),
+    			origin.addHue(240),
+    			origin.addHue(300)
+    		];
+    		svgColorWheel(paper, colors);
+    	};
+
+    	// 類似色
+    	var changeAnalogous = function(origin) {
+    		var colors = [-3,-2,-1,1,2,3].map(function(a) {
+    			return origin.addHue(10 * a);
+    		});
+    		$("#analogous .origin").css("background-color", origin.toCssHexCode());
+    		$("#analogous .origin").text(origin.toCssHexCode());
+    		colors.zip($("#analogous").find(".analogous")).forEach(function(a) {
+    			var color = a[0];
+    			var $analogous = $(a[1]);
+    			$analogous.css("background-color", color.toCssHexCode());
+    			$analogous.text(color.toCssHexCode());
+    		});
+    	};
+
+    	// カラーホイール
+    	var changeColorWheel = function(origin) {
+    		var paper = papers.colorWheel;
+			paper.clear();
+			// 12色作る
+			var colors = [
+				origin,
+				origin.addHue(30),
+				origin.addHue(60),
+				origin.addHue(90),
+				origin.addHue(120),
+				origin.addHue(150),
+				origin.addHue(180),
+				origin.addHue(210),
+				origin.addHue(240),
+				origin.addHue(270),
+				origin.addHue(300)
+			];
+			svgColorWheel(paper, colors);
+    	};
+
+    	// てきとーなからーほいーる
+    	function svgColorWheel(paper, colors) {
+    		var center = {x: paper.width / 2, 
+    			y: paper.height / 2};
+			paper.clear();
+    		// 書くカラーホイールの色を描写
+			var diffRad = 360 / colors.length;
+			colors.forEach(function(color, i) {
+				var start = (90 - diffRad / 2) + i * diffRad;
+				var end = start + diffRad;
+				var txtAnimate = 100;
+				var circleAnimate = 1000;
+				var delta = 30;
+				var txt = paper.text(center.x,
+					center.y,
+					color.toCssHexCode()).attr({
+						'font-size':"20px", 
+						'fill': "#899299",
+						'opacity':0
+					});
+				paper.circleSector(center.x, center.y, paper.width * 2 / 5, start, end)
+					.attr({'fill' : color.toCssHexCode(),
+						'stroke-width':0 })
+					.mouseover(function () {
+		                this.stop().animate({transform: "s1.1 1.1 " + center.x + " " + center.y}, circleAnimate, "elastic");
+		                txt.toFront();
+		                txt.stop().animate({opacity: 1}, txtAnimate, "elastic");
+		            }).mouseout(function () {
+		                this.stop().animate({transform: ""}, circleAnimate, "elastic");
+		                txt.stop().animate({opacity: 0}, txtAnimate);
+		            });
+
+			});
+
+			// 真ん中を白くするため
+			paper.circle(center.x, center.y, paper.width / 3)
+				.attr({'fill' : "#ffffff",
+					'stroke-width':0 });
+    	}
+
+    	var papers;
+    	$(function(){
+    		var raphael = function(id) {
+    			return Raphael(id, $("#" + id).width(), $("#" + id).height());
+    		};
+    		papers = {
+    			triadWheel:　raphael("triad_wheel_svg"),
+    			hexardWheel: raphael("hexard_wheel_svg"),
+    			colorWheel: raphael("color_wheel_svg")
+    		};
+    	});
+
+    	// Raphael拡張
+    	const RADIAN = Math.PI / 180;
+    	Raphael.fn.circleSector = function(cx, cy, r, startAngle, endAngle) {
+    		var x1 = cx + r * Math.cos(-startAngle * RADIAN),
+		            x2 = cx + r * Math.cos(-endAngle * RADIAN),
+		            y1 = cy + r * Math.sin(-startAngle * RADIAN),
+		            y2 = cy + r * Math.sin(-endAngle * RADIAN);
+    		return this.path(["M", cx, cy, "L", x1, y1, "A", r, r, 0, +(endAngle - startAngle > 180), 0, x2, y2, "z"]);
+    	};
+
+    </script>
+  </body>
+</html>
