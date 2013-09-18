@@ -248,33 +248,9 @@
     <script type="text/javascript" src="./js/raphael-min.js"></script>
     <!-- Include my scripts -->
     <script type="text/javascript" src="./js/Color.js"></script>
-
+    
     <script type="text/javascript" src="./js/javascriptx.min.js"></script>
-
     <script type="text/javascript" src="./dist/index.min.js"></script>
-
-    <script type="text/javascript">
-    	$("#base_color_hex").focus(function() {
-    		$("#type_hex").click();
-    	});
-    	$("#base_color_r").focus(function() {
-    		$("#type_rgb").click();
-    	});
-    	$("#base_color_h").focus(function() {
-    		$("#type_hsv").click();
-    	});
-
-    	// input support
-    	$(".base_color_255").change(function() {
-    		var val = ('' + $(this).val()).toFloatOrZero() % 256;
-    		$(this).val(val);
-    	});
-
-    	$(".base_color_359").change(function() {
-    		var val = ('' + $(this).val()).toFloatOrZero() % 360;
-    		$(this).val(val);
-    	});
-    </script>
 
     <script type="text/javascript">
     	// クソコード多数。後で作り直す

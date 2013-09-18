@@ -1,3 +1,29 @@
+###
+input support
+###
+$ ->
+  $("#base_color_hex").focus ->
+    $("#type_hex").click()  # HACK
+
+  $("#base_color_r").focus ->
+    $("#type_rgb").click()  # HACK
+
+  $("#base_color_h").focus ->
+    $("#type_hsv").click()  # HACK
+
+  # ex) 270 -> 14
+  $(".base_color_255").change ->
+    val = ('' + $(@).val()).toFloatOrZero() % 256;
+    $(@).val(val);
+
+  # ex) 370 -> 10
+  $(".base_color_359").change ->
+    val = ('' + $(@).val()).toFloatOrZero() % 360;
+    $(@).val(val);
+
+###
+# draw color whell
+###
 window.drawColorWheel = (paper, colors) -> 
   paper.clear()
   center = 
@@ -23,7 +49,7 @@ window.drawColorWheel = (paper, colors) ->
       .attr(
         'fill':color.toCssHexCode()
         'stroke-width':0)
-      .mouseover(-> 
+      .mouseover -> 
         transform = 'transform' : "s1.1 1.1 " + center.x + " " + center.y
         @.stop().animate(
           transform, 
@@ -31,11 +57,10 @@ window.drawColorWheel = (paper, colors) ->
         # HACK
         txt.toFront()
         txt.stop().animate(opacity:1, animationMs.txt, "elastic")
-      )
-      .mouseout( -> 
+      .mouseout -> 
         @.stop().animate(transform:"", animationMs.circle, "elastic")
         txt.stop().animate(opacity:0, animationMs.txt, "elastic")
-      )
+      
   # end for
   paper.circle(center.x, center.y, paper.width / 3)
     .attr(
