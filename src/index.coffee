@@ -70,25 +70,39 @@ getOriginColor = ->
 #
 ###
 class Complementary
+  gradationRate = 20 # FIX
+
   @base = (origin) -> origin.addHue 180
-  gradationRate = -20
+  @colors = (base) ->
+    [-3..3].map (i) ->
+      base.addSaturation i * gradationRate
 
   @render = (origin) ->
     base = @base(origin)
     originHexCode = origin.toCssHexCode()
-    $("#complementary .origin").css("background-color", originHexCode);
-    $("#complementary .origin").text(originHexCode);
-    
-    $("#complementary .origin").each (index) ->
-      complementaryHexCode = base.addSaturation(gradationRate * index).toCssHexCode()
-      $(this).css("color", complementaryHexCode)
-      $(this).text(complementaryHexCode)
+    html = @colors.compose(@base)(origin).map (color) ->
+      colorHexCode = color.toCssHexCode()
+      "<div class='col-lg-6 color-compare' style='background-color:#{originHexCode};color:#{colorHexCode};'>
+        #{originHexCode}
+      </div>
+      <div class='col-lg-6 color-compare'style='background-color:#{colorHexCode};color:#{originHexCode};'>
+        #{colorHexCode}
+      </div>" # TODO:
+    $("#complementary .chart").html html
+    # originHexCode = origin.toCssHexCode()
+    # $("#complementary .origin").css("background-color", originHexCode);
+    # $("#complementary .origin").text(originHexCode);
 
-    $("#complementary .complementary").css("color", originHexCode);
-    $("#complementary .complementary").each (index) -> 
-      complementaryHexCode = base.addSaturation(gradationRate * index).toCssHexCode()
-      $(this).css("background-color", complementaryHexCode)
-      $(this).text(complementaryHexCode)
+    # $("#complementary .origin").each (index) ->
+    #   complementaryHexCode = base.addSaturation(gradationRate * index).toCssHexCode()
+    #   $(this).css("color", complementaryHexCode)
+    #   $(this).text(complementaryHexCode)
+
+    # $("#complementary .complementary").css("color", originHexCode);
+    # $("#complementary .complementary").each (index) -> 
+    #   complementaryHexCode = base.addSaturation(gradationRate * index).toCssHexCode()
+    #   $(this).css("background-color", complementaryHexCode)
+    #   $(this).text(complementaryHexCode)
     
 
 ###
@@ -100,16 +114,17 @@ class Analogous
       origin.addHue i * 10
 
   @render = (origin) ->
-    $("#analogous .origin").css("background-color", origin.toCssHexCode())
-    $("#analogous .origin").text(origin.toCssHexCode())
-    @colors(origin).zip($("#analogous").find(".analogous"))
-      .forEach (a) ->
-        color = a[0]
-        $analogous = $(a[1])
-        $analogous.css("background-color", color.toCssHexCode())
-        $analogous.text(color.toCssHexCode())
-    
-
+    originHexCode = origin.toCssHexCode()
+    complementaryColorCode = origin.addHue(180).toCssHexCode()
+    html = @colors(origin).map (color) ->
+      colorHexCode = color.toCssHexCode()
+      "<div class='col-lg-6 color-compare' style='background-color:#{originHexCode};color:#{complementaryColorCode}'>
+        #{originHexCode}
+      </div>
+      <div class='col-lg-6 color-compare'style='background-color:#{colorHexCode};color:#{complementaryColorCode}'>
+        #{colorHexCode}
+      </div>" # TODO:
+    $("#analogous .chart").html html
 
 ###
 # draw Triad color wheel
@@ -145,7 +160,7 @@ drawColorWheel = (paper, colors) ->
     y: paper.height / 2
   # Radian
   diffRad = 360 / colors.length
-  for color, i in colors
+  colors.forEach (color, i) ->
     start = (90 - diffRad / 2) + i * diffRad
     end = start + diffRad
     animationMs = 

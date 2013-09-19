@@ -7,21 +7,14 @@
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
   
-  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="../../assets/js/html5shiv.js"></script>
       <script src="../../assets/js/respond.min.js"></script>
     <![endif]-->
+    <link href="dist/index.min.css" rel="stylesheet" media="screen">
     <style type="text/css">
     /* Move down content because we have a fixed navbar that is 50px tall */
-	  body {
-	    padding-top: 50px;
-	    padding-bottom: 20px;
-	  }
-	  .svg {
-	  	width:250px;
-	  	height:250px;
-	  }
     </style>
 </head>
 <body>
@@ -131,7 +124,7 @@
             
             <div class="form-group">
         	  <label for="" class="col-lg-4 control-label">Type</label>
-              <div class="col-lg-8" style="text-align:right;">
+              <div class="col-lg-8" class="align-center">
                 <label class="radio-inline"><input type="radio" name="type" id="type_hex" value="hex" checked>HEX</label>
                 <label class="radio-inline"><input type="radio" name="type" id="type_rgb" value="rgb">RGB</label>
                 <label class="radio-inline"><input type="radio" name="type" id="type_hsv" value="hsv">HSV</label>
@@ -149,60 +142,35 @@
       <div class="col-lg-9" id="result">
       	<div class="row">
 	        <div class="col-lg-4" id="complementary">
-	        	<div class="row" style="margin: 0 3px 0 3px;">
+	        	<div class="row result-block" >
 		        	<h2>補色</h2>
-		        	<div class="col-lg-6 origin" style="height:20px;"></div>
-		        	<div class="col-lg-6 complementary" style="height:20px;"></div>
-
-		        	<div class="col-lg-6 origin" style="height:20px;"></div>
-		        	<div class="col-lg-6 complementary" style="height:20px;"></div>
-
-		        	<div class="col-lg-6 origin" style="height:20px;"></div>
-		        	<div class="col-lg-6 complementary" style="height:20px;"></div>
-
-		        	<div class="col-lg-6 origin" style="height:20px;"></div>
-		        	<div class="col-lg-6 complementary" style="height:20px;"></div>
-
-		        	<div class="col-lg-6 origin" style="height:20px;"></div>
-		        	<div class="col-lg-6 complementary" style="height:20px;"></div>
+              <div class="chart"><!-- scripts draw here --></div>
 	        	</div>
 	        </div><!-- #complementary -->
 	        <div class="col-lg-4" id="triad">
-	        	<div class="row" style="margin: 0 3px 0 3px;">
+	        	<div class="row result-block">
 		        	<h2>トライアド</h2>
-		        	<div id="triad_wheel_svg" class="svg"></div>
+		        	<div id="triad_wheel_svg" class="svg"><!-- scripts draw here --></div>
 	        	</div>
 	        </div><!-- #triad -->
-	        <div class="col-lg-4" id="hexard">
-	        	<div class="row" style="margin: 0 3px 0 3px;">
+	        <div class="col-lg-4" id="hexard" >
+	        	<div class="row result-block">
 		        	<h2>ヘクサード</h2>
-		        	<div id="hexard_wheel_svg" class="svg"></div>
+		        	<div id="hexard_wheel_svg" class="svg"><!-- scripts draw here --></div>
 	        	</div>
 	        </div><!-- #hexard -->
         </div>
         <div class="row">
         	<div class="col-lg-4" id="analogous">
-	        	<div class="row" style="margin: 0 3px 0 3px;">
+	        	<div class="row result-block">
 		        	<h2>類似色</h2>
-		        	<div class="col-lg-6 origin" style="height:20px;"></div>
-		        	<div class="col-lg-6 analogous" style="height:20px;"></div>
-		        	<div class="col-lg-6 origin" style="height:20px;"></div>
-		        	<div class="col-lg-6 analogous" style="height:20px;"></div>
-		        	<div class="col-lg-6 origin" style="height:20px;"></div>
-		        	<div class="col-lg-6 analogous" style="height:20px;"></div>
-		        	<div class="col-lg-6 origin" style="height:20px;"></div>
-		        	<div class="col-lg-6 analogous" style="height:20px;"></div>
-		        	<div class="col-lg-6 origin" style="height:20px;"></div>
-		        	<div class="col-lg-6 analogous" style="height:20px;"></div>
-		        	<div class="col-lg-6 origin" style="height:20px;"></div>
-		        	<div class="col-lg-6 analogous" style="height:20px;"></div>
-
+              <div class="chart"><!-- scripts draw here --></div>
 	        	</div>
 	        </div><!-- #analogous -->
 	        <div class="col-lg-4" id="color_wheel">
-	        	<div class="row" style="margin: 0 3px 0 3px;">
+	        	<div class="row result-block">
 		        	<h2>12色カラーホイール</h2>
-		        	<div id="color_wheel_svg" class="svg"></div>
+		        	<div id="color_wheel_svg" class="svg"><!-- scripts draw here --></div>
 	        	</div>
         	</div>
         </div>

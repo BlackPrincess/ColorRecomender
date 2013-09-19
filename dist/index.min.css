@@ -1,0 +1,17 @@
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+.result-block {
+  margin: 0 3px 0 3px;
+}
+.svg {
+  width: 250px;
+  height: 250px;
+}
+.align-center {
+  text-align: right;
+}
+.color-compare {
+  height: 30px;
+}

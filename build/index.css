@@ -1,0 +1,20 @@
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+.svg {
+  width: 250px;
+  height: 250px;
+}
+.align-center {
+  text-align: right;
+}
+.origin {
+  height: 50px;
+}
+.complementary {
+  height: 50px;
+}
+.analogous {
+  height: 50px;
+}

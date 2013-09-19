@@ -91,31 +91,28 @@
 
     function Complementary() {}
 
+    gradationRate = 20;
+
     Complementary.base = function(origin) {
       return origin.addHue(180);
     };
 
-    gradationRate = -20;
+    Complementary.colors = function(base) {
+      return [-3, -2, -1, 0, 1, 2, 3].map(function(i) {
+        return base.addSaturation(i * gradationRate);
+      });
+    };
 
     Complementary.render = function(origin) {
-      var base, originHexCode;
+      var base, html, originHexCode;
       base = this.base(origin);
       originHexCode = origin.toCssHexCode();
-      $("#complementary .origin").css("background-color", originHexCode);
-      $("#complementary .origin").text(originHexCode);
-      $("#complementary .origin").each(function(index) {
-        var complementaryHexCode;
-        complementaryHexCode = base.addSaturation(gradationRate * index).toCssHexCode();
-        $(this).css("color", complementaryHexCode);
-        return $(this).text(complementaryHexCode);
+      html = this.colors.compose(this.base)(origin).map(function(color) {
+        var colorHexCode;
+        colorHexCode = color.toCssHexCode();
+        return "<div class='col-lg-6 color-compare' style='background-color:" + originHexCode + ";color:" + colorHexCode + ";'>        " + originHexCode + "      </div>      <div class='col-lg-6 color-compare'style='background-color:" + colorHexCode + ";color:" + originHexCode + ";'>        " + colorHexCode + "      </div>";
       });
-      $("#complementary .complementary").css("color", originHexCode);
-      return $("#complementary .complementary").each(function(index) {
-        var complementaryHexCode;
-        complementaryHexCode = base.addSaturation(gradationRate * index).toCssHexCode();
-        $(this).css("background-color", complementaryHexCode);
-        return $(this).text(complementaryHexCode);
-      });
+      return $("#complementary .chart").html(html);
     };
 
     return Complementary;
@@ -137,15 +134,15 @@
     };
 
     Analogous.render = function(origin) {
-      $("#analogous .origin").css("background-color", origin.toCssHexCode());
-      $("#analogous .origin").text(origin.toCssHexCode());
-      return this.colors(origin).zip($("#analogous").find(".analogous")).forEach(function(a) {
-        var $analogous, color;
-        color = a[0];
-        $analogous = $(a[1]);
-        $analogous.css("background-color", color.toCssHexCode());
-        return $analogous.text(color.toCssHexCode());
+      var complementaryColorCode, html, originHexCode;
+      originHexCode = origin.toCssHexCode();
+      complementaryColorCode = origin.addHue(180).toCssHexCode();
+      html = this.colors(origin).map(function(color) {
+        var colorHexCode;
+        colorHexCode = color.toCssHexCode();
+        return "<div class='col-lg-6 color-compare' style='background-color:" + originHexCode + ";color:" + complementaryColorCode + "'>        " + originHexCode + "      </div>      <div class='col-lg-6 color-compare'style='background-color:" + colorHexCode + ";color:" + complementaryColorCode + "'>        " + colorHexCode + "      </div>";
       });
+      return $("#analogous .chart").html(html);
     };
 
     return Analogous;
@@ -197,15 +194,15 @@
 
 
   drawColorWheel = function(paper, colors) {
-    var animationMs, center, color, diffRad, end, i, start, txt, _i, _len;
+    var center, diffRad;
     paper.clear();
     center = {
       x: paper.width / 2,
       y: paper.height / 2
     };
     diffRad = 360 / colors.length;
-    for (i = _i = 0, _len = colors.length; _i < _len; i = ++_i) {
-      color = colors[i];
+    colors.forEach(function(color, i) {
+      var animationMs, end, start, txt;
       start = (90 - diffRad / 2) + i * diffRad;
       end = start + diffRad;
       animationMs = {
@@ -217,7 +214,7 @@
         'fill': "#899299",
         'opacity': 0
       });
-      paper.circleSector(center.x, center.y, paper.width * 2 / 5, start, end).attr({
+      return paper.circleSector(center.x, center.y, paper.width * 2 / 5, start, end).attr({
         'fill': color.toCssHexCode(),
         'stroke-width': 0
       }).mouseover(function() {
@@ -238,7 +235,7 @@
           opacity: 0
         }, animationMs.txt, "elastic");
       });
-    }
+    });
     return paper.circle(center.x, center.y, paper.width / 3).attr({
       'fill': "#ffffff",
       'stroke-width': 0
