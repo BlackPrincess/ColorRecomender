@@ -53,41 +53,18 @@
               </ul>
             </li>
           </ul>
-          
         </div><!--/.navbar-collapse -->
       </div>
     </div>
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
         <h1>Color Recomender</h1>
         <p>ちょっと色を選ぶのに迷った時、そっと機械的な値をリコメンドしてくれます</p>
-        <!--<p><a class="btn btn-primary btn-lg">Learn more &raquo;</a></p>-->
       </div>
     </div>
 
     <div class="container">
-    <!-- Example row of columns -->
-    <!--<div class="row">
-      <div class="col-lg-4">
-        <h2>Heading</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-        <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
-        </div>
-        <div class="col-lg-4">
-        <h2>Heading</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-        <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
-        </div>
-        <div class="col-lg-4">
-        <h2>Heading</h2>
-        <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
-      </div>
-    </div>-->
-
-    
       <div class="row">
         <div class="col-lg-3">
           <div class="row">
@@ -99,7 +76,7 @@
                 <input type="text" class="form-control" id="base_color_hex" placeholder="#000000 ~ #ffffff">
               </div>
             </div>
-            <!-- RGB -->
+            
             <div class="form-group">
               <label for="base_color_r" class="col-lg-4 control-label">RGB</label>
               <div class="col-lg-8">
@@ -124,8 +101,8 @@
                   </li>
                 </ul>
               </div>
-            </div>
-            <!-- HSV -->
+            </div><!-- RGB -->
+            
             <div class="form-group">
               <label for="base_color_h" class="col-lg-4 control-label">HSV</label>
               <div class="col-lg-8">
@@ -150,8 +127,8 @@
                   </li>
                 </ul>
               </div>
-            </div>
-            <!-- Controll -->
+            </div><!-- HSV -->
+            
             <div class="form-group">
         	  <label for="" class="col-lg-4 control-label">Type</label>
               <div class="col-lg-8" style="text-align:right;">
@@ -159,12 +136,13 @@
                 <label class="radio-inline"><input type="radio" name="type" id="type_rgb" value="rgb">RGB</label>
                 <label class="radio-inline"><input type="radio" name="type" id="type_hsv" value="hsv">HSV</label>
               </div>
-          	</div>
+          	</div><!-- Type -->
+
           	<div class="form-group">
               <div class="col-lg-offset-2 col-lg-10">
                 <button class="btn btn-primary pull-right" id="execute">Execute</button>
               </div>
-            </div>
+            </div><!-- Controll -->
           </form>
         </div>
       </div>
@@ -251,192 +229,7 @@
     
     <script type="text/javascript" src="./js/javascriptx.min.js"></script>
     <script type="text/javascript" src="./dist/index.min.js"></script>
-
     <script type="text/javascript">
-    	// クソコード多数。後で作り直す
-    	$("#execute").click(function(ev) {
-    		var origin = getOriginColor();
-    		changeComplementary(origin);
-    		changeTriad(origin);
-    		changeHexard(origin);
-    		changeAnalogous(origin);
-    		changeColorWheel(origin);
-    		return false;
-    	});
-
-    	var getOriginColor = function() {
-    		var type = $("input[name=type]:checked").val().toLowerCase();
-    		switch(type) {
-    			case "hex":
-    				var hex = $("#base_color_hex").val();
-    				return princessJs.Color.createFromHexCode(hex);
-				case "rgb":
-					var r = $("#base_color_r").val().toInt();
-					var g = $("#base_color_g").val().toInt();
-					var b = $("#base_color_b").val().toInt();
-					return princessJs.Color.create(r, g, b);
-				case "hsv":
-					var h = $("#base_color_h").val().toInt();
-					var s = $("#base_color_s").val().toInt();
-					var v = $("#base_color_v").val().toInt();
-					return princessJs.Color.createFromHSV(h, s, v);
-    		}
-    	};
-    	// 補色の部分
-    	var changeComplementary = function(origin) {
-    		var base = origin.addHue(180);
-    		var originHexCode = origin.toCssHexCode();
-    		$("#complementary .origin").css("background-color", originHexCode);
-    		$("#complementary .origin").text(originHexCode);
-    		var gradationRate = -20;
-
-    		// origin divs
-    		$("#complementary .origin").each(function() {
-    			var index = $("#complementary .origin").index(this);
-    			var complementaryHexCode = base.addSaturation(gradationRate * index).toCssHexCode();
-    			$(this).css("color", complementaryHexCode);
-    			$(this).text(complementaryHexCode);
-    		});
-
-    		// complementary divs
-    		$("#complementary .complementary").css("color", originHexCode);
-    		$("#complementary .complementary").each(function() {
-    			var index = $("#complementary .complementary").index(this);
-    			var complementaryHexCode = base.addSaturation(gradationRate * index).toCssHexCode();
-    			$(this).css("background-color", complementaryHexCode);
-    			$(this).text(complementaryHexCode);
-    		});
-    	};
-
-    	// トライアドの部分
-    	var changeTriad = function(origin) {
-    		var paper = papers.triadWheel;
-    		var colors = [
-    			origin,
-    			origin.addHue(120),
-    			origin.addHue(240)
-			];
-
-    		svgColorWheel(paper, colors);
-    	};
-
-    	// へくさーど。
-    	var changeHexard = function(origin) {
-    		var paper = papers.hexardWheel;
-    		var colors = [
-    			origin,
-    			origin.addHue(60),
-    			origin.addHue(120),
-    			origin.addHue(180),
-    			origin.addHue(240),
-    			origin.addHue(300)
-    		];
-    		svgColorWheel(paper, colors);
-    	};
-
-    	// 類似色
-    	var changeAnalogous = function(origin) {
-    		var colors = [-3,-2,-1,1,2,3].map(function(a) {
-    			return origin.addHue(10 * a);
-    		});
-    		$("#analogous .origin").css("background-color", origin.toCssHexCode());
-    		$("#analogous .origin").text(origin.toCssHexCode());
-    		colors.zip($("#analogous").find(".analogous")).forEach(function(a) {
-    			var color = a[0];
-    			var $analogous = $(a[1]);
-    			$analogous.css("background-color", color.toCssHexCode());
-    			$analogous.text(color.toCssHexCode());
-    		});
-    	};
-
-    	// カラーホイール
-    	var changeColorWheel = function(origin) {
-    		var paper = papers.colorWheel;
-  			paper.clear();
-  			// 12色作る
-  			var colors = [
-  				origin,
-  				origin.addHue(30),
-  				origin.addHue(60),
-  				origin.addHue(90),
-  				origin.addHue(120),
-  				origin.addHue(150),
-  				origin.addHue(180),
-  				origin.addHue(210),
-  				origin.addHue(240),
-  				origin.addHue(270),
-  				origin.addHue(300)
-  			];
-  			svgColorWheel(paper, colors);
-    	};
-
-    	// てきとーなからーほいーる
-    	function svgColorWheel(paper, colors) {
-        drawColorWheel(paper, colors);
-   //  		var center = {x: paper.width / 2, 
-   //  			y: paper.height / 2};
-  	// 		paper.clear();
-   //    		// 書くカラーホイールの色を描写
-  	// 		var diffRad = 360 / colors.length;
-  	// 		colors.forEach(function(color, i) {
-  	// 			var start = (90 - diffRad / 2) + i * diffRad;
-  	// 			var end = start + diffRad;
-  	// 			var txtAnimate = 100;
-  	// 			var circleAnimate = 1000;
-  	// 			var delta = 30;
-  	// 			var txt = paper.text(center.x,
-  	// 				center.y,
-  	// 				color.toCssHexCode()).attr({
-  	// 					'font-size':"20px", 
-  	// 					'fill': "#899299",
-  	// 					'opacity':0
-  	// 				});
-  	// 			paper.circleSector(center.x, center.y, paper.width * 2 / 5, start, end)
-  	// 				.attr({'fill' : color.toCssHexCode(),
-  	// 					'stroke-width':0 })
-  	// 				.mouseover(function () {
-  	// 	                this.stop().animate({transform: "s1.1 1.1 " + center.x + " " + center.y}, circleAnimate, "elastic");
-  	// 	                txt.toFront();
-  	// 	                txt.stop().animate({opacity: 1}, txtAnimate, "elastic");
-  	// 	            }).mouseout(function () {
-  	// 	                this.stop().animate({transform: ""}, circleAnimate, "elastic");
-  	// 	                txt.stop().animate({opacity: 0}, txtAnimate);
-  	// 	            });
-
-			// });
-
-			// // 真ん中を白くするため
-			// paper.circle(center.x, center.y, paper.width / 3)
-			// 	.attr({'fill' : "#ffffff",
-			// 		'stroke-width':0 });
-  	}
-
-    	var papers;
-    	$(function(){
-    		var raphael = function(id) {
-    			return Raphael(id, $("#" + id).width(), $("#" + id).height());
-    		};
-    		papers = {
-    			triadWheel:　raphael("triad_wheel_svg"),
-    			hexardWheel: raphael("hexard_wheel_svg"),
-    			colorWheel: raphael("color_wheel_svg")
-    		};
-    	});
-
-    	// Raphael拡張
-    	const RADIAN = Math.PI / 180;
-    	Raphael.fn.circleSector = function(cx, cy, r, startAngle, endAngle) {
-    		var x1 = cx + r * Math.cos(-startAngle * RADIAN),
-		            x2 = cx + r * Math.cos(-endAngle * RADIAN),
-		            y1 = cy + r * Math.sin(-startAngle * RADIAN),
-		            y2 = cy + r * Math.sin(-endAngle * RADIAN);
-    		return this.path(["M", cx, cy, "L", x1, y1, "A", r, r, 0, +(endAngle - startAngle > 180), 0, x2, y2, "z"]);
-    	};
-
-    </script>
-
-    <script type="text/javascript">
-
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-43044857-2']);
       _gaq.push(['_trackPageview']);
