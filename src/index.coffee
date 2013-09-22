@@ -24,6 +24,7 @@ class ColorControls
   must be called on document.onload
   ###
   @init = ->
+    _this = this
     # input support
     $("#base_color_hex").focus ->
       $("#type_hex").click()  # HACK
@@ -46,7 +47,7 @@ class ColorControls
 
     # HACK!!!!!
     $("#base_color_hex").change ->
-      @setColor $(@).val()
+      _this.setColor $(@).val()
 
     $("#base_color_r, #base_color_g, #base_color_b").change =>
       @setColor 
@@ -152,13 +153,13 @@ class Complementary
     originHexCode = origin.toCssHexCode()
     html = @colors.compose(@base)(origin).map (color) ->
       colorHexCode = color.toCssHexCode()
-      "<div class='col-lg-6 color-compare' style='background-color:#{originHexCode};color:#{colorHexCode};'>
+      "<div><div class='col-lg-6 color-compare' style='background-color:#{originHexCode};color:#{colorHexCode};'>
         #{originHexCode}
       </div>
       <div class='col-lg-6 color-compare'style='background-color:#{colorHexCode};color:#{originHexCode};'>
         #{colorHexCode}
-      </div>" # TODO:
-    $("#complementary .chart").html html
+      </div></div>" # TODO:
+    $("#complementary .chart").html html.join('')
 
 ###
 # Analogous Block
@@ -173,13 +174,13 @@ class Analogous
     complementaryColorCode = origin.addHue(180).toCssHexCode()
     html = @colors(origin).map (color) ->
       colorHexCode = color.toCssHexCode()
-      "<div class='col-lg-6 color-compare' style='background-color:#{originHexCode};color:#{complementaryColorCode}'>
+      "<div><div class='col-lg-6 color-compare' style='background-color:#{originHexCode};color:#{complementaryColorCode}'>
         #{originHexCode}
       </div>
-      <div class='col-lg-6 color-compare'style='background-color:#{colorHexCode};color:#{complementaryColorCode}'>
+      <div class='col-lg-6 color-compare' style='background-color:#{colorHexCode};color:#{complementaryColorCode}'>
         #{colorHexCode}
-      </div>" # TODO:
-    $("#analogous .chart").html html
+      </div></div>" # TODO:
+    $("#analogous .chart").html html.join('')
 
 ###
 # draw Triad color wheel
@@ -188,7 +189,12 @@ drawTriad = (origin) ->
   colors = [0..2].map (i) -> 
     origin.addHue i * 120
   drawColorWheel(papers.triadWheel, colors)
+  dtdd = colors.map (color) ->
+    colorHexCode = color.toCssHexCode()
+    "<dt style='background-color:#{colorHexCode};'></dt>
+    <dd>#{colorHexCode}</dd>"
 
+  $("#triad dl.color-list").html dtdd.join('')
 ###
 # draw Hexard color wheel
 ###
@@ -196,7 +202,12 @@ drawHexard = (origin) ->
   colors = [0..5].map (i) -> 
     origin.addHue i * 60
   drawColorWheel(papers.hexardWheel, colors)
-
+  dtdd = colors.map (color) ->
+    colorHexCode = color.toCssHexCode()
+    "<dt style='background-color:#{colorHexCode};'></dt>
+    <dd>#{colorHexCode}</dd>"
+  console.dir(dtdd)
+  $("#hexard dl.color-list").html dtdd.join('')
 ###
 # draw color wheel
 ###
@@ -204,7 +215,12 @@ draw12ColorWheel = (origin) ->
   colors = [0..11].map (i) ->
     origin.addHue i * 30
   drawColorWheel(papers.colorWheel, colors)
-  
+  dtdd = colors.map (color) ->
+    colorHexCode = color.toCssHexCode()
+    "<dt style='background-color:#{colorHexCode};'></dt>
+    <dd>#{colorHexCode}</dd>"
+
+  $("#color_wheel dl.color-list").html dtdd.join('')
 ###
 # draw color wheel
 ###

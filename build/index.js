@@ -39,6 +39,7 @@
 
     ColorControls.init = function() {
       var _this = this;
+      _this = this;
       $("#base_color_hex").focus(function() {
         return $("#type_hex").click();
       });
@@ -59,7 +60,7 @@
         return $(this).val(val);
       });
       $("#base_color_hex").change(function() {
-        return this.setColor($(this).val());
+        return _this.setColor($(this).val());
       });
       $("#base_color_r, #base_color_g, #base_color_b").change(function() {
         return _this.setColor({
@@ -187,9 +188,9 @@
       html = this.colors.compose(this.base)(origin).map(function(color) {
         var colorHexCode;
         colorHexCode = color.toCssHexCode();
-        return "<div class='col-lg-6 color-compare' style='background-color:" + originHexCode + ";color:" + colorHexCode + ";'>        " + originHexCode + "      </div>      <div class='col-lg-6 color-compare'style='background-color:" + colorHexCode + ";color:" + originHexCode + ";'>        " + colorHexCode + "      </div>";
+        return "<div><div class='col-lg-6 color-compare' style='background-color:" + originHexCode + ";color:" + colorHexCode + ";'>        " + originHexCode + "      </div>      <div class='col-lg-6 color-compare'style='background-color:" + colorHexCode + ";color:" + originHexCode + ";'>        " + colorHexCode + "      </div></div>";
       });
-      return $("#complementary .chart").html(html);
+      return $("#complementary .chart").html(html.join(''));
     };
 
     return Complementary;
@@ -217,9 +218,9 @@
       html = this.colors(origin).map(function(color) {
         var colorHexCode;
         colorHexCode = color.toCssHexCode();
-        return "<div class='col-lg-6 color-compare' style='background-color:" + originHexCode + ";color:" + complementaryColorCode + "'>        " + originHexCode + "      </div>      <div class='col-lg-6 color-compare'style='background-color:" + colorHexCode + ";color:" + complementaryColorCode + "'>        " + colorHexCode + "      </div>";
+        return "<div><div class='col-lg-6 color-compare' style='background-color:" + originHexCode + ";color:" + complementaryColorCode + "'>        " + originHexCode + "      </div>      <div class='col-lg-6 color-compare' style='background-color:" + colorHexCode + ";color:" + complementaryColorCode + "'>        " + colorHexCode + "      </div></div>";
       });
-      return $("#analogous .chart").html(html);
+      return $("#analogous .chart").html(html.join(''));
     };
 
     return Analogous;
@@ -232,11 +233,17 @@
 
 
   drawTriad = function(origin) {
-    var colors;
+    var colors, dtdd;
     colors = [0, 1, 2].map(function(i) {
       return origin.addHue(i * 120);
     });
-    return drawColorWheel(papers.triadWheel, colors);
+    drawColorWheel(papers.triadWheel, colors);
+    dtdd = colors.map(function(color) {
+      var colorHexCode;
+      colorHexCode = color.toCssHexCode();
+      return "<dt style='background-color:" + colorHexCode + ";'></dt>    <dd>" + colorHexCode + "</dd>";
+    });
+    return $("#triad dl.color-list").html(dtdd.join(''));
   };
 
   /*
@@ -245,11 +252,18 @@
 
 
   drawHexard = function(origin) {
-    var colors;
+    var colors, dtdd;
     colors = [0, 1, 2, 3, 4, 5].map(function(i) {
       return origin.addHue(i * 60);
     });
-    return drawColorWheel(papers.hexardWheel, colors);
+    drawColorWheel(papers.hexardWheel, colors);
+    dtdd = colors.map(function(color) {
+      var colorHexCode;
+      colorHexCode = color.toCssHexCode();
+      return "<dt style='background-color:" + colorHexCode + ";'></dt>    <dd>" + colorHexCode + "</dd>";
+    });
+    console.dir(dtdd);
+    return $("#hexard dl.color-list").html(dtdd.join(''));
   };
 
   /*
@@ -258,11 +272,17 @@
 
 
   draw12ColorWheel = function(origin) {
-    var colors;
+    var colors, dtdd;
     colors = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(function(i) {
       return origin.addHue(i * 30);
     });
-    return drawColorWheel(papers.colorWheel, colors);
+    drawColorWheel(papers.colorWheel, colors);
+    dtdd = colors.map(function(color) {
+      var colorHexCode;
+      colorHexCode = color.toCssHexCode();
+      return "<dt style='background-color:" + colorHexCode + ";'></dt>    <dd>" + colorHexCode + "</dd>";
+    });
+    return $("#color_wheel dl.color-list").html(dtdd.join(''));
   };
 
   /*

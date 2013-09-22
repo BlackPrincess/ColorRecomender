@@ -6,8 +6,16 @@ body {
   margin: 0 3px 0 3px;
 }
 .svg {
-  width: 250px;
-  height: 250px;
+  width: 200px;
+  height: 200px;
+}
+dl.color-list dt {
+  width: 20px;
+  height: 20px;
+  background-color: #ffaacc;
+}
+dl.color-list dd {
+  margin-left: 20px;
 }
 .align-center {
   text-align: center;

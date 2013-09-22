@@ -1,12 +1,15 @@
 @color-bar-height:30px;
-@svg-size:250px;
+@svg-width:200px;
+@svg-height:@svg-width;
 @assetsPath:'../assets';
 
 @image-color-width:30px;
 @image-color-width-margin:3px;
-@image-color-height:30px;
-@image-color-height-margin:3px;
+@image-color-height: @image-color-width;
+@image-color-height-margin:@image-color-width-margin;
 
+@color-list-width:20px;
+@color-list-height: @color-list-width;
 body {
   padding-top: 50px;
   padding-bottom: 20px;
@@ -17,8 +20,18 @@ body {
 }
 
 .svg {
-  width:@svg-size;
-  height:@svg-size;
+  width:@svg-width;
+  height:@svg-height;
+}
+
+dl.color-list dt {
+  width:@color-list-width;
+  height:@color-list-height;
+  background-color: #ffaacc;
+}
+
+dl.color-list dd {
+  margin-left:@color-list-width;
 }
 
 .align-center {
