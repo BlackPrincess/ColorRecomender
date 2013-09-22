@@ -5,12 +5,12 @@
   <title>Color Recomender</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="./assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
   
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script src="../../assets/js/html5shiv.js"></script>
-      <script src="../../assets/js/respond.min.js"></script>
+      <script src="./assets/js/html5shiv.js"></script>
+      <script src="./assets/js/respond.min.js"></script>
     <![endif]-->
     <link href="dist/index.min.css" rel="stylesheet" media="screen">
     <style type="text/css">
@@ -21,14 +21,14 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
-          </button>
+          </button>-->
           <a class="navbar-brand" href="#">Color Recomender</a>
         </div>
-        <div class="navbar-collapse collapse">
+        <!--<div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">メニュー</a></li>
             <li><a href="#about">メニュー</a></li>
@@ -45,7 +45,7 @@
                 <li><a href="#">メニュー</a></li>
               </ul>
             </li>
-          </ul>
+          </ul>-->
         </div><!--/.navbar-collapse -->
       </div>
     </div>
@@ -123,15 +123,15 @@
             </div><!-- HSV -->
             
             <div class="form-group">
-        	  <label for="" class="col-lg-4 control-label">Type</label>
+            <label for="" class="col-lg-4 control-label">Type</label>
               <div class="col-lg-8" class="align-center">
                 <label class="radio-inline"><input type="radio" name="type" id="type_hex" value="hex" checked>HEX</label>
                 <label class="radio-inline"><input type="radio" name="type" id="type_rgb" value="rgb">RGB</label>
                 <label class="radio-inline"><input type="radio" name="type" id="type_hsv" value="hsv">HSV</label>
               </div>
-          	</div><!-- Type -->
+            </div><!-- Type -->
 
-          	<div class="form-group">
+            <div class="form-group">
               <div class="col-lg-offset-2 col-lg-10">
                 <button class="btn btn-primary pull-right" id="execute">Execute</button>
               </div>
@@ -140,43 +140,40 @@
         </div>
       </div>
       <div class="col-lg-9" id="result">
-      	<div class="row">
-	        <div class="col-lg-4" id="complementary">
-	        	<div class="row result-block" >
-		        	<h2>補色</h2>
+        <div class="row">
+          <div class="col-lg-4" id="complementary">
+            <div class="row result-block" >
+              <h2>補色</h2>
               <div class="chart"><!-- scripts draw here --></div>
-	        	</div>
-	        </div><!-- #complementary -->
-	        <div class="col-lg-4" id="triad">
-	        	<div class="row result-block">
-		        	<h2>トライアド</h2>
-		        	<div id="triad_wheel_svg" class="svg"><!-- scripts draw here --></div>
-	        	</div>
-	        </div><!-- #triad -->
-	        <div class="col-lg-4" id="hexard" >
-	        	<div class="row result-block">
-		        	<h2>ヘクサード</h2>
-		        	<div id="hexard_wheel_svg" class="svg"><!-- scripts draw here --></div>
-	        	</div>
-	        </div><!-- #hexard -->
+            </div>
+          </div><!-- #complementary -->
+          <div class="col-lg-4" id="triad">
+            <div class="row result-block">
+              <h2>トライアド</h2>
+              <div id="triad_wheel_svg" class="svg"><!-- scripts draw here --></div>
+            </div>
+          </div><!-- #triad -->
+          <div class="col-lg-4" id="hexard" >
+            <div class="row result-block">
+              <h2>ヘクサード</h2>
+              <div id="hexard_wheel_svg" class="svg"><!-- scripts draw here --></div>
+            </div>
+          </div><!-- #hexard -->
         </div>
         <div class="row">
-        	<div class="col-lg-4" id="analogous">
-	        	<div class="row result-block">
-		        	<h2>類似色</h2>
+          <div class="col-lg-4" id="analogous">
+            <div class="row result-block">
+              <h2>類似色</h2>
               <div class="chart"><!-- scripts draw here --></div>
-	        	</div>
-	        </div><!-- #analogous -->
-	        <div class="col-lg-4" id="color_wheel">
-	        	<div class="row result-block">
-		        	<h2>12色カラーホイール</h2>
-		        	<div id="color_wheel_svg" class="svg"><!-- scripts draw here --></div>
-	        	</div>
-        	</div>
+            </div>
+          </div><!-- #analogous -->
+          <div class="col-lg-4" id="color_wheel">
+            <div class="row result-block">
+              <h2>12色カラーホイール</h2>
+              <div id="color_wheel_svg" class="svg"><!-- scripts draw here --></div>
+            </div>
+          </div>
         </div>
-        <div class="row">
-        	
-    	</div>
       </div>
     </div>
 
@@ -187,15 +184,13 @@
     </div> <!-- /container -->
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="./js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="./assets/js/jquery-1.10.2.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="./js/bootstrap.min.js"></script>
-
-    <script type="text/javascript" src="./js/raphael-min.js"></script>
+    <script type="text/javascript" src="./assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./assets/js/raphael-min.js"></script>
     <!-- Include my scripts -->
+    <script type="text/javascript" src="./assets/js/javascriptx.min.js"></script>
     <script type="text/javascript" src="./js/Color.js"></script>
-    
-    <script type="text/javascript" src="./js/javascriptx.min.js"></script>
     <script type="text/javascript" src="./dist/index.min.js"></script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
