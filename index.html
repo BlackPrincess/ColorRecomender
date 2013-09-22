@@ -6,16 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link href="./assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
-  
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="./assets/js/html5shiv.js"></script>
       <script src="./assets/js/respond.min.js"></script>
     <![endif]-->
+    <link rel="stylesheet" href="./assets/css/colorpicker.css" type="text/css" />
     <link href="./build/index.min.css" rel="stylesheet" media="screen">
-    <style type="text/css">
-    /* Move down content because we have a fixed navbar that is 50px tall */
-    </style>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -61,133 +58,145 @@
       <div class="row">
         <div class="col-lg-3">
           <div class="row">
-            <form class="form-horizontal" role="form">
-          <!-- Hex -->
-            <div class="form-group">
-              <label for="base_color_hex" class="col-lg-4 control-label">HEX</label>
-              <div class="col-lg-8">
-                <input type="text" class="form-control" id="base_color_hex" placeholder="#000000 ~ #ffffff">
+            <form class="form-horizontal" role="form" id="color_controls">
+              <div class="form-group">
+                <label for="base_color_selector" class="col-lg-6 control-label">Color Picker</label>
+                <div class="col-lg-6">
+                  <div id="base_color_selector" class="pull-right">
+                    <div class="image-color"></div>
+                  </div>
+                </div>
               </div>
-            </div>
+              <div class="form-group">
+                <label for="base_color_hex" class="col-lg-4 control-label">HEX</label>
+                <div class="col-lg-8">
+                  <input type="text" class="form-control" id="base_color_hex" placeholder="#000000 ~ #ffffff">
+                </div>
+              </div><!-- Hex -->
             
-            <div class="form-group">
-              <label for="base_color_r" class="col-lg-4 control-label">RGB</label>
-              <div class="col-lg-8">
-                <ul class="list-unstyled">
-                  <li class="row">
-                    <div class="col-lg-3"><label for="base_color_r" class="col-lg-6 control-label">R</label></div>
-                    <div class="col-lg-9">
-                      <input type="text" class="form-control input-sm base_color_255" id="base_color_r" placeholder="0 ~ 255">
-                    </div>
-                  </li>
-                  <li class="row">
-                    <div class="col-lg-3"><label for="base_color_g" class="col-lg-6 control-label">G</label></div>
-                    <div class="col-lg-9">
-                      <input type="text" class="form-control input-sm base_color_255" id="base_color_g" placeholder="0 ~ 255">
-                    </div>
-                  </li>
-                  <li class="row">
-                    <div class="col-lg-3"><label for="base_color_b" class="col-lg-6 control-label">B</label></div>
-                    <div class="col-lg-9">
-                      <input type="text" class="form-control input-sm base_color_255" id="base_color_b" placeholder="0 ~ 255">
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div><!-- RGB -->
+              <div class="form-group">
+                <label for="base_color_r" class="col-lg-4 control-label">RGB</label>
+                <div class="col-lg-8">
+                  <ul class="list-unstyled">
+                    <li class="row">
+                      <div class="col-lg-3"><label for="base_color_r" class="col-lg-6 control-label">R</label></div>
+                      <div class="col-lg-9">
+                        <input type="text" class="form-control input-sm base_color_255" id="base_color_r" placeholder="0 ~ 255">
+                      </div>
+                    </li>
+                    <li class="row">
+                      <div class="col-lg-3"><label for="base_color_g" class="col-lg-6 control-label">G</label></div>
+                      <div class="col-lg-9">
+                        <input type="text" class="form-control input-sm base_color_255" id="base_color_g" placeholder="0 ~ 255">
+                      </div>
+                    </li>
+                    <li class="row">
+                      <div class="col-lg-3"><label for="base_color_b" class="col-lg-6 control-label">B</label></div>
+                      <div class="col-lg-9">
+                        <input type="text" class="form-control input-sm base_color_255" id="base_color_b" placeholder="0 ~ 255">
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div><!-- RGB -->
             
-            <div class="form-group">
-              <label for="base_color_h" class="col-lg-4 control-label">HSV</label>
-              <div class="col-lg-8">
-                <ul class="list-unstyled">
-                  <li class="row">
-                    <div class="col-lg-3"><label for="base_color_h" class="col-lg-6 control-label">H</label></div>
-                    <div class="col-lg-9">
-                      <input type="text" class="form-control input-sm base_color_359" id="base_color_h" placeholder="0 ~ 359">
-                    </div>
-                  </li>
-                  <li class="row">
-                    <div class="col-lg-3"><label for="base_color_s" class="col-lg-6 control-label">S</label></div>
-                    <div class="col-lg-9">
-                      <input type="text" class="form-control input-sm base_color_255" id="base_color_s" placeholder="0 ~ 255">
-                    </div>
-                  </li>
-                  <li class="row">
-                    <div class="col-lg-3"><label for="base_color_v" class="col-lg-6 control-label">V</label></div>
-                    <div class="col-lg-9">
-                      <input type="text" class="form-control input-sm base_color_255" id="base_color_v" placeholder="0 ~ 255">
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div><!-- HSV -->
+              <div class="form-group">
+                <label for="base_color_h" class="col-lg-4 control-label">HSV</label>
+                <div class="col-lg-8">
+                  <ul class="list-unstyled">
+                    <li class="row">
+                      <div class="col-lg-3"><label for="base_color_h" class="col-lg-6 control-label">H</label></div>
+                      <div class="col-lg-9">
+                        <input type="text" class="form-control input-sm base_color_359" id="base_color_h" placeholder="0 ~ 359">
+                      </div>
+                    </li>
+                    <li class="row">
+                      <div class="col-lg-3"><label for="base_color_s" class="col-lg-6 control-label">S</label></div>
+                      <div class="col-lg-9">
+                        <input type="text" class="form-control input-sm base_color_255" id="base_color_s" placeholder="0 ~ 255">
+                      </div>
+                    </li>
+                    <li class="row">
+                      <div class="col-lg-3"><label for="base_color_v" class="col-lg-6 control-label">V</label></div>
+                      <div class="col-lg-9">
+                        <input type="text" class="form-control input-sm base_color_255" id="base_color_v" placeholder="0 ~ 255">
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div><!-- HSV -->
             
-            <div class="form-group">
-            <label for="" class="col-lg-4 control-label">Type</label>
-              <div class="col-lg-8" class="align-center">
-                <label class="radio-inline"><input type="radio" name="type" id="type_hex" value="hex" checked>HEX</label>
-                <label class="radio-inline"><input type="radio" name="type" id="type_rgb" value="rgb">RGB</label>
-                <label class="radio-inline"><input type="radio" name="type" id="type_hsv" value="hsv">HSV</label>
-              </div>
-            </div><!-- Type -->
+              <div class="form-group">
+              <label for="" class="col-lg-4 control-label">Type</label>
+                <div class="col-lg-8" class="align-right">
+                  <label class="radio-inline"><input type="radio" name="type" id="type_hex" value="hex" checked>HEX</label>
+                  <label class="radio-inline"><input type="radio" name="type" id="type_rgb" value="rgb">RGB</label>
+                  <label class="radio-inline"><input type="radio" name="type" id="type_hsv" value="hsv">HSV</label>
+                </div>
+              </div><!-- Type -->
 
-            <div class="form-group">
-              <div class="col-lg-offset-2 col-lg-10">
-                <button class="btn btn-primary pull-right" id="execute">Execute</button>
+              <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">
+                  <label class="checkbox-inline">
+                    <input type="checkbox" id="auto_calc" checked />auto-calc
+                  </label>
+                  <button class="btn btn-primary pull-right" id="execute">Execute</button>
+                </div>
+              </div><!-- Controll -->
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-9" id="result">
+          <div class="row">
+            <div class="col-lg-4" id="complementary">
+              <div class="row result-block" >
+                <h2>補色</h2>
+                <div class="chart"><!-- scripts draw here --></div>
               </div>
-            </div><!-- Controll -->
-          </form>
-        </div>
-      </div>
-      <div class="col-lg-9" id="result">
-        <div class="row">
-          <div class="col-lg-4" id="complementary">
-            <div class="row result-block" >
-              <h2>補色</h2>
-              <div class="chart"><!-- scripts draw here --></div>
-            </div>
-          </div><!-- #complementary -->
-          <div class="col-lg-4" id="triad">
-            <div class="row result-block">
-              <h2>トライアド</h2>
-              <div id="triad_wheel_svg" class="svg"><!-- scripts draw here --></div>
-            </div>
-          </div><!-- #triad -->
-          <div class="col-lg-4" id="hexard" >
-            <div class="row result-block">
-              <h2>ヘクサード</h2>
-              <div id="hexard_wheel_svg" class="svg"><!-- scripts draw here --></div>
-            </div>
-          </div><!-- #hexard -->
-        </div>
-        <div class="row">
-          <div class="col-lg-4" id="analogous">
-            <div class="row result-block">
-              <h2>類似色</h2>
-              <div class="chart"><!-- scripts draw here --></div>
-            </div>
-          </div><!-- #analogous -->
-          <div class="col-lg-4" id="color_wheel">
-            <div class="row result-block">
-              <h2>12色カラーホイール</h2>
-              <div id="color_wheel_svg" class="svg"><!-- scripts draw here --></div>
+            </div><!-- #complementary -->
+            <div class="col-lg-4" id="triad">
+              <div class="row result-block">
+                <h2>トライアド</h2>
+                <div id="triad_wheel_svg" class="svg"><!-- scripts draw here --></div>
+              </div>
+            </div><!-- #triad -->
+            <div class="col-lg-4" id="hexard" >
+              <div class="row result-block">
+                <h2>ヘクサード</h2>
+                <div id="hexard_wheel_svg" class="svg"><!-- scripts draw here --></div>
+              </div>
+            </div><!-- #hexard -->
+          </div>
+          <div class="row">
+            <div class="col-lg-4" id="analogous">
+              <div class="row result-block">
+                <h2>類似色</h2>
+                <div class="chart"><!-- scripts draw here --></div>
+              </div>
+            </div><!-- #analogous -->
+            <div class="col-lg-4" id="color_wheel">
+              <div class="row result-block">
+                <h2>12色カラーホイール</h2>
+                <div id="color_wheel_svg" class="svg"><!-- scripts draw here --></div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <hr>
-    <footer>
-      <p>&copy; toshiki.kurokawa 2013</p>
-    </footer>
+      <hr />
+      <footer>
+        <p>&copy; Black Princess 2013</p>
+      </footer>
     </div> <!-- /container -->
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script type="text/javascript" src="./assets/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="./assets/js/jquery.checkbox.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script type="text/javascript" src="./assets/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./assets/js/raphael-min.js"></script>
+    <script type="text/javascript" src="./assets/js/eye.js"></script>
+    <script type="text/javascript" src="./assets/js/colorpicker.js"></script>
     <!-- Include my scripts -->
     <script type="text/javascript" src="./assets/js/javascriptx.min.js"></script>
     <script type="text/javascript" src="./js/Color.js"></script>

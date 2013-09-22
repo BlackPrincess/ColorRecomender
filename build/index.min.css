@@ -10,8 +10,25 @@ body {
   height: 250px;
 }
 .align-center {
+  text-align: center;
+}
+.align-right {
   text-align: right;
 }
 .color-compare {
   height: 30px;
+}
+#base_color_selector {
+  width: 36px;
+  height: 36px;
+  background: url('../assets/images/select.png') center;
+}
+#base_color_selector .image-color {
+  position: absolute;
+  margin-top: 3px;
+  margin-left: 3px;
+  width: 30px;
+  height: 30px;
+  background: url('../assets/images/select.png') center;
+  background-color: #4b8bf5;
 }

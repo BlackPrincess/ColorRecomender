@@ -1,85 +1,162 @@
 (function() {
-  var Analogous, Complementary, draw12ColorWheel, drawColorWheel, drawHexard, drawTriad, getOriginColor, resultRender;
+  var Analogous, ColorControls, Complementary, draw12ColorWheel, drawColorWheel, drawHexard, drawTriad;
 
   $(function() {
-    /*
-    input support
-    */
-
-    var raphael;
-    $("#base_color_hex").focus(function() {
-      return $("#type_hex").click();
-    });
-    $("#base_color_r").focus(function() {
-      return $("#type_rgb").click();
-    });
-    $("#base_color_h").focus(function() {
-      return $("#type_hsv").click();
-    });
-    $(".base_color_255").change(function() {
-      var val;
-      val = ('' + $(this).val()).toFloatOrZero() % 256;
-      return $(this).val(val);
-    });
-    $(".base_color_359").change(function() {
-      var val;
-      val = ('' + $(this).val()).toFloatOrZero() % 360;
-      return $(this).val(val);
-    });
-    /*
-    event ?
-    */
-
-    $("#execute").click(function(ev) {
-      resultRender();
-      return false;
-    });
     /*
     # svg
     */
 
+    var raphael;
     raphael = function(id) {
       return Raphael(id, $("#" + id).width(), $("#" + id).height());
     };
-    return window.papers = {
+    window.papers = {
       triadWheel: 　raphael("triad_wheel_svg"),
       hexardWheel: raphael("hexard_wheel_svg"),
       colorWheel: raphael("color_wheel_svg")
     };
+    /*
+    # Initialize
+    */
+
+    return ColorControls.init();
   });
 
   /*
-  # render all blocks
+  Controls
   */
 
 
-  resultRender = function() {
-    var origin;
-    origin = getOriginColor();
-    Complementary.render(origin);
-    drawTriad(origin);
-    drawHexard(origin);
-    Analogous.render(origin);
-    return draw12ColorWheel(origin);
-  };
+  ColorControls = (function() {
+    function ColorControls() {}
 
-  /*
-  # get origin color from inputs
-  */
+    ColorControls.$imageColor = $("#base_color_selector .image-color");
+
+    /*
+    must be called on document.onload
+    */
 
 
-  getOriginColor = function() {
-    var type;
-    type = $("input[name=type]:checked").val().toLowerCase();
-    switch (type) {
-      case "hex":
-        return princessJs.Color.createFromHexCode($("#base_color_hex").val());
-      case "rgb":
-        return princessJs.Color.create($("#base_color_r").val().toInt(), $("#base_color_g").val().toInt(), $("#base_color_b").val().toInt());
-      case "hsv":
-        return princessJs.Color.createFromHSV($("#base_color_h").val().toInt(), $("#base_color_s").val().toInt(), $("#base_color_v").val().toInt());
-    }
-  };
+    ColorControls.init = function() {
+      var _this = this;
+      $("#base_color_hex").focus(function() {
+        return $("#type_hex").click();
+      });
+      $("#base_color_r, #base_color_g, #base_color_b").focus(function() {
+        return $("#type_rgb").click();
+      });
+      $("#base_color_h, #base_color_s, #base_color_v").focus(function() {
+        return $("#type_hsv").click();
+      });
+      $("#color_controls .base_color_255").change(function() {
+        var val;
+        val = ('' + $(this).val()).toFloatOrZero() % 256;
+        return $(this).val(val);
+      });
+      $("#color_controls .base_color_359").change(function() {
+        var val;
+        val = ('' + $(this).val()).toFloatOrZero() % 360;
+        return $(this).val(val);
+      });
+      $("#base_color_hex").change(function() {
+        return this.setColor($(this).val());
+      });
+      $("#base_color_r, #base_color_g, #base_color_b").change(function() {
+        return _this.setColor({
+          r: $("#base_color_r").val(),
+          g: $("#base_color_g").val(),
+          b: $("#base_color_b").val()
+        });
+      });
+      $("#base_color_h, #base_color_s, #base_color_v").change(function() {
+        return _this.setColor({
+          r: $("#base_color_h").val(),
+          g: $("#base_color_s").val(),
+          b: $("#base_color_v").val()
+        });
+      });
+      $("#base_color_selector").ColorPicker({
+        color: this.$imageColor.css('background-color'),
+        onShow: function(colpkr) {
+          $(colpkr).fadeIn(500);
+          return false;
+        },
+        onHide: function(colpkr) {
+          $(colpkr).fadeOut(500);
+          return false;
+        },
+        onChange: function(hsb, hex, rgb) {
+          return _this.setColor(rgb);
+        }
+      });
+      return $("#execute").click(function(ev) {
+        _this.execute();
+        return false;
+      });
+    };
+
+    /*
+    get origin color from inputs
+    */
+
+
+    ColorControls.getColor = function() {
+      var type;
+      type = $("input[name=type]:checked").val().toLowerCase();
+      switch (type) {
+        case "hex":
+          return princessJs.Color.createFromHexCode($("#base_color_hex").val());
+        case "rgb":
+          return princessJs.Color.create($("#base_color_r").val().toInt(), $("#base_color_g").val().toInt(), $("#base_color_b").val().toInt());
+        case "hsv":
+          return princessJs.Color.createFromHSV($("#base_color_h").val().toInt(), $("#base_color_s").val().toInt(), $("#base_color_v").val().toInt());
+      }
+    };
+
+    /*
+    update all
+    */
+
+
+    ColorControls.setColor = function(val) {
+      var color, hexCode, hsv, rgb;
+      color = (val.h != null) && (val.s != null) && (val.v != null) ? princessJs.Color.createFromHSV(val) : (val.r != null) && (val.g != null) && (val.b != null) ? princessJs.Color.createFromRGB(val) : princessJs.Color.createFromHexCode(val);
+      rgb = color.toRGB();
+      hsv = color.toHSV();
+      hexCode = color.toCssHexCode();
+      this.$imageColor.ColorPickerSetColor(rgb);
+      this.$imageColor.css('background-color', hexCode);
+      $("#base_color_hex").val(hexCode);
+      $("#base_color_r").val(rgb.r);
+      $("#base_color_g").val(rgb.g);
+      $("#base_color_b").val(rgb.b);
+      $("#base_color_h").val(hsv.h);
+      $("#base_color_s").val(hsv.s);
+      $("#base_color_v").val(hsv.v);
+      if ($("#auto_calc").checked()) {
+        this.execute();
+      }
+      return this;
+    };
+
+    /*
+    calcurate and render
+    */
+
+
+    ColorControls.execute = function() {
+      var origin;
+      origin = ColorControls.getColor();
+      Complementary.render(origin);
+      drawTriad(origin);
+      drawHexard(origin);
+      Analogous.render(origin);
+      return draw12ColorWheel(origin);
+    };
+
+    return ColorControls;
+
+  })();
 
   /*
   #

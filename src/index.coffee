@@ -1,32 +1,5 @@
 $ ->
-  ###
-  input support
-  ###
-  $("#base_color_hex").focus ->
-    $("#type_hex").click()  # HACK
 
-  $("#base_color_r").focus ->
-    $("#type_rgb").click()  # HACK
-
-  $("#base_color_h").focus ->
-    $("#type_hsv").click()  # HACK
-
-  # ex) 270 -> 14
-  $(".base_color_255").change ->
-    val = ('' + $(@).val()).toFloatOrZero() % 256;
-    $(@).val(val);
-
-  # ex) 370 -> 10
-  $(".base_color_359").change ->
-    val = ('' + $(@).val()).toFloatOrZero() % 360;
-    $(@).val(val);
-
-  ###
-  event ?
-  ###
-  $("#execute").click (ev) ->
-    resultRender()
-    false
 
   ###
   # svg 
@@ -37,35 +10,132 @@ $ ->
     hexardWheel: raphael("hexard_wheel_svg")
     colorWheel: raphael("color_wheel_svg")
 
-###
-# render all blocks
-###
-resultRender = ->
-  origin = getOriginColor()
-  Complementary.render(origin)
-  drawTriad(origin)
-  drawHexard(origin)
-  Analogous.render(origin)
-  draw12ColorWheel(origin)
+  ###
+  # Initialize
+  ###
+  ColorControls.init()
 
 ###
-# get origin color from inputs
+Controls
 ###
-getOriginColor = ->
-  type = $("input[name=type]:checked").val().toLowerCase()
-  switch type
-    when "hex"
-      princessJs.Color.createFromHexCode($("#base_color_hex").val())
-    when "rgb"
-      princessJs.Color.create(
-        $("#base_color_r").val().toInt()
-        $("#base_color_g").val().toInt()
-        $("#base_color_b").val().toInt())
-    when "hsv"
-      princessJs.Color.createFromHSV(
-        $("#base_color_h").val().toInt()
-        $("#base_color_s").val().toInt() 
-        $("#base_color_v").val().toInt())
+class ColorControls
+  @$imageColor = $("#base_color_selector .image-color");
+  ###
+  must be called on document.onload
+  ###
+  @init = ->
+    # input support
+    $("#base_color_hex").focus ->
+      $("#type_hex").click()  # HACK
+
+    $("#base_color_r, #base_color_g, #base_color_b").focus ->
+      $("#type_rgb").click()  # HACK
+
+    $("#base_color_h, #base_color_s, #base_color_v").focus ->
+      $("#type_hsv").click()  # HACK
+
+    # ex) 270 -> 14
+    $("#color_controls .base_color_255").change ->
+      val = ('' + $(@).val()).toFloatOrZero() % 256;
+      $(@).val(val);
+
+    # ex) 370 -> 10
+    $("#color_controls .base_color_359").change ->
+      val = ('' + $(@).val()).toFloatOrZero() % 360;
+      $(@).val(val);
+
+    # HACK!!!!!
+    $("#base_color_hex").change ->
+      @setColor $(@).val()
+
+    $("#base_color_r, #base_color_g, #base_color_b").change =>
+      @setColor 
+        r: $("#base_color_r").val()
+        g: $("#base_color_g").val()
+        b: $("#base_color_b").val()
+
+    $("#base_color_h, #base_color_s, #base_color_v").change =>
+      @setColor 
+        r: $("#base_color_h").val()
+        g: $("#base_color_s").val()
+        b: $("#base_color_v").val()
+
+    #color Piker
+    $("#base_color_selector").ColorPicker(
+      color: @$imageColor.css('background-color')
+      onShow: (colpkr) => 
+        $(colpkr).fadeIn 500
+        false
+      onHide: (colpkr) =>
+        $(colpkr).fadeOut 500
+        false
+      onChange: (hsb, hex, rgb) =>
+        @setColor rgb
+    )
+
+    $("#execute").click (ev) =>
+      @execute()
+      false
+  ###
+  get origin color from inputs
+  ###
+  @getColor = ->
+    type = $("input[name=type]:checked").val().toLowerCase()
+    switch type
+      when "hex"
+        princessJs.Color.createFromHexCode($("#base_color_hex").val())
+      when "rgb"
+        princessJs.Color.create(
+          $("#base_color_r").val().toInt()
+          $("#base_color_g").val().toInt()
+          $("#base_color_b").val().toInt())
+      when "hsv"
+        princessJs.Color.createFromHSV(
+          $("#base_color_h").val().toInt()
+          $("#base_color_s").val().toInt() 
+          $("#base_color_v").val().toInt())
+  ###
+  update all
+  ###
+  @setColor = (val) ->
+    color = if(val.h? && val.s? && val.v?)
+      princessJs.Color.createFromHSV(val)
+    else if(val.r? && val.g? && val.b?)
+      princessJs.Color.createFromRGB(val)
+    else 
+      princessJs.Color.createFromHexCode(val)
+    
+    rgb = color.toRGB()
+    hsv = color.toHSV()
+    hexCode = color.toCssHexCode()
+    @$imageColor.ColorPickerSetColor rgb
+    @$imageColor.css('background-color', hexCode)
+    # hex
+    $("#base_color_hex").val hexCode
+    # rgb
+    $("#base_color_r").val rgb.r
+    $("#base_color_g").val rgb.g
+    $("#base_color_b").val rgb.b
+
+    #hsv
+    $("#base_color_h").val hsv.h
+    $("#base_color_s").val hsv.s
+    $("#base_color_v").val hsv.v
+
+    if($("#auto_calc").checked())
+      @execute()
+    @
+
+  ###
+  calcurate and render
+  ###
+  @execute = ->
+    origin = ColorControls.getColor()
+    Complementary.render(origin)
+    drawTriad(origin)
+    drawHexard(origin)
+    Analogous.render(origin)
+    draw12ColorWheel(origin)
 ###
 #
 ###
@@ -89,21 +159,6 @@ class Complementary
         #{colorHexCode}
       </div>" # TODO:
     $("#complementary .chart").html html
-    # originHexCode = origin.toCssHexCode()
-    # $("#complementary .origin").css("background-color", originHexCode);
-    # $("#complementary .origin").text(originHexCode);
-
-    # $("#complementary .origin").each (index) ->
-    #   complementaryHexCode = base.addSaturation(gradationRate * index).toCssHexCode()
-    #   $(this).css("color", complementaryHexCode)
-    #   $(this).text(complementaryHexCode)
-
-    # $("#complementary .complementary").css("color", originHexCode);
-    # $("#complementary .complementary").each (index) -> 
-    #   complementaryHexCode = base.addSaturation(gradationRate * index).toCssHexCode()
-    #   $(this).css("background-color", complementaryHexCode)
-    #   $(this).text(complementaryHexCode)
-    
 
 ###
 # Analogous Block

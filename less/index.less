@@ -1,5 +1,11 @@
 @color-bar-height:30px;
 @svg-size:250px;
+@assetsPath:'../assets';
+
+@image-color-width:30px;
+@image-color-width-margin:3px;
+@image-color-height:30px;
+@image-color-height-margin:3px;
 
 body {
   padding-top: 50px;
@@ -16,9 +22,30 @@ body {
 }
 
 .align-center {
+  text-align: center;
+}
+
+.align-right {
   text-align: right;
 }
 
 .color-compare {
   height:@color-bar-height;
+}
+
+
+#base_color_selector {
+  width:@image-color-width + @image-color-width-margin * 2;
+  height:@image-color-height + @image-color-height-margin * 2;
+  background: url('@{assetsPath}/images/select.png') center;
+}
+
+#base_color_selector .image-color {
+  position: absolute;
+  margin-top: @image-color-height-margin;
+  margin-left: @image-color-width-margin;
+  width: @image-color-width;
+  height: @image-color-height;
+  background: url('@{assetsPath}/images/select.png') center;
+  background-color: #4b8bf5;
 }
