@@ -20,10 +20,11 @@ module.exports = (grunt) ->
     less:
       compile: 
         options: [
-          compress:true
+          compress:true,
+          yuicompress:true
         ]
         files: [
-          "dist/index.min.css":"less/index.less"
+          "build/index.min.css":"less/index.less"
         ]
         
 
@@ -36,17 +37,17 @@ module.exports = (grunt) ->
         files: "less/**/*.less",
         tasks: ["build"]
 
-    concat:
-      coffee:
-        src:[
-          "build/index.js"
-        ]
-        dest: "dist/index.js"
+    # concat:
+    #   coffee:
+    #     src:[
+    #       "build/index.js"
+    #     ]
+    #     dest: "build/index.js"
 
     uglify:
       coffee:
-        src: "dist/index.js"
-        dest: "dist/index.min.js"
+        src: "build/index.js"
+        dest: "build/index.min.js"
 
     jstestdriver:
       files: [
@@ -54,5 +55,5 @@ module.exports = (grunt) ->
       ]
         
 
-  grunt.registerTask "run", ["coffee", "less", "concat", "uglify", "watch"]
-  grunt.registerTask "build", ["coffee", "less", "concat", "uglify"]
+  grunt.registerTask "run", ["coffee", "less", "uglify", "watch"]
+  grunt.registerTask "build", ["coffee", "less", "uglify"]
