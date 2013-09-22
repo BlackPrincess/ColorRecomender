@@ -262,7 +262,6 @@
       colorHexCode = color.toCssHexCode();
       return "<dt style='background-color:" + colorHexCode + ";'></dt>    <dd>" + colorHexCode + "</dd>";
     });
-    console.dir(dtdd);
     return $("#hexard dl.color-list").html(dtdd.join(''));
   };
 

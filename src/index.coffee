@@ -1,6 +1,4 @@
 $ ->
-
-
   ###
   # svg 
   ###
@@ -206,7 +204,6 @@ drawHexard = (origin) ->
     colorHexCode = color.toCssHexCode()
     "<dt style='background-color:#{colorHexCode};'></dt>
     <dd>#{colorHexCode}</dd>"
-  console.dir(dtdd)
   $("#hexard dl.color-list").html dtdd.join('')
 ###
 # draw color wheel
