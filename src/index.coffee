@@ -1,18 +1,12 @@
 $ ->
   ###
-  # svg 
-  ###
-  raphael = (id) -> Raphael(id, $("#" + id).width(), $("#" + id).height());
-  window.papers = 
-    triadWheel:　raphael("triad_wheel_svg")
-    hexardWheel: raphael("hexard_wheel_svg")
-    colorWheel: raphael("color_wheel_svg")
-
-  ###
   # Initialize
   ###
   ColorControls.init()
-
+  Triad.init()
+  Hexard.init()
+  Color12.init()
+  Tone8.init()
 ###
 Controls
 ###
@@ -130,13 +124,15 @@ class ColorControls
   ###
   @execute = ->
     origin = ColorControls.getColor()
-    Complementary.render(origin)
-    drawTriad(origin)
-    drawHexard(origin)
-    Analogous.render(origin)
-    draw12ColorWheel(origin)
+    Complementary.render origin
+    Triad.render origin
+    Hexard.render origin
+    Analogous.render origin
+    Color12.render origin
+    Tone8.render origin
+    @
 ###
-#
+# Complementary
 ###
 class Complementary
   gradationRate = 20 # FIX
@@ -181,43 +177,73 @@ class Analogous
     $("#analogous .chart").html html.join('')
 
 ###
-# draw Triad color wheel
+Color Wheel base class
 ###
-drawTriad = (origin) ->
-  colors = [0..2].map (i) -> 
-    origin.addHue i * 120
-  drawColorWheel(papers.triadWheel, colors)
-  dtdd = colors.map (color) ->
-    colorHexCode = color.toCssHexCode()
-    "<dt style='background-color:#{colorHexCode};'></dt>
-    <dd>#{colorHexCode}</dd>"
+class ColorWheel
+  @createRaphael = (id) -> Raphael(id, $("#" + id).width(), $("#" + id).height())
+  @dtdd = (origin) -> 
+    @colors(origin).map (color) ->
+      colorHexCode = color.toCssHexCode()
+      "<dt style='background-color:#{colorHexCode};'></dt>
+      <dd>#{colorHexCode}</dd>"
+  @draw = (origin) ->
+    drawColorWheel(@paper, @colors(origin))
+###
+Triad Weel
+###
+class Triad extends ColorWheel
+  @init = ->
+    @paper = @createRaphael "triad_wheel_svg"
 
-  $("#triad dl.color-list").html dtdd.join('')
-###
-# draw Hexard color wheel
-###
-drawHexard = (origin) ->
-  colors = [0..5].map (i) -> 
-    origin.addHue i * 60
-  drawColorWheel(papers.hexardWheel, colors)
-  dtdd = colors.map (color) ->
-    colorHexCode = color.toCssHexCode()
-    "<dt style='background-color:#{colorHexCode};'></dt>
-    <dd>#{colorHexCode}</dd>"
-  $("#hexard dl.color-list").html dtdd.join('')
-###
-# draw color wheel
-###
-draw12ColorWheel = (origin) ->
-  colors = [0..11].map (i) ->
-    origin.addHue i * 30
-  drawColorWheel(papers.colorWheel, colors)
-  dtdd = colors.map (color) ->
-    colorHexCode = color.toCssHexCode()
-    "<dt style='background-color:#{colorHexCode};'></dt>
-    <dd>#{colorHexCode}</dd>"
+  @colors = (origin) ->
+    [0..2].map (i) -> 
+      origin.addHue i * 120
 
-  $("#color_wheel dl.color-list").html dtdd.join('')
+  @render = (origin) ->
+    @draw origin
+    $("#triad dl.color-list").html @dtdd(origin).join('')
+###
+Hexard Wheel
+###
+class Hexard extends ColorWheel
+  @init = ->
+    @paper = @createRaphael "hexard_wheel_svg"
+
+  @colors = (origin) ->
+    [0..5].map (i) -> 
+      origin.addHue i * 60
+
+  @render = (origin) ->
+    @draw origin
+    $("#hexard dl.color-list").html @dtdd(origin).join('')
+###
+Color Wheel
+###
+class Color12 extends ColorWheel
+  @init = ->
+    @paper = @createRaphael "color_wheel_svg"
+
+  @colors = (origin) ->
+    [0..11].map (i) ->
+      origin.addHue i * 30
+
+  @render = (origin) ->
+    @draw origin
+    $("#color_wheel dl.color-list").html @dtdd(origin).join('')
+###
+Tone Color
+###
+class Tone8 extends ColorWheel
+  @init = ->
+    @paper = @createRaphael "tone_8_wheel_svg"
+
+  @colors = (origin) ->
+    [0..7].map (i) ->
+      origin.setSaturation i * 32
+
+  @render = (origin) ->
+    @draw origin
+    $("#tone_8_wheel dl.color-list").html @dtdd(origin).join('')
 ###
 # draw color wheel
 ###
@@ -257,8 +283,8 @@ drawColorWheel = (paper, colors) ->
       .mouseout -> 
         @.stop().animate(transform:"", animationMs.circle, "elastic")
         txt.stop().animate(opacity:0, animationMs.txt, "elastic")
-      
   # end for
+  
   paper.circle(center.x, center.y, paper.width / 3)
     .attr(
       'fill':"#ffffff"

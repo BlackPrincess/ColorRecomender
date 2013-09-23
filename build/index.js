@@ -1,25 +1,18 @@
 (function() {
-  var Analogous, ColorControls, Complementary, draw12ColorWheel, drawColorWheel, drawHexard, drawTriad;
+  var Analogous, Color12, ColorControls, ColorWheel, Complementary, Hexard, Tone8, Triad, drawColorWheel, _ref, _ref1, _ref2, _ref3,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   $(function() {
-    /*
-    # svg
-    */
-
-    var raphael;
-    raphael = function(id) {
-      return Raphael(id, $("#" + id).width(), $("#" + id).height());
-    };
-    window.papers = {
-      triadWheel: 　raphael("triad_wheel_svg"),
-      hexardWheel: raphael("hexard_wheel_svg"),
-      colorWheel: raphael("color_wheel_svg")
-    };
     /*
     # Initialize
     */
 
-    return ColorControls.init();
+    ColorControls.init();
+    Triad.init();
+    Hexard.init();
+    Color12.init();
+    return Tone8.init();
   });
 
   /*
@@ -149,10 +142,12 @@
       var origin;
       origin = ColorControls.getColor();
       Complementary.render(origin);
-      drawTriad(origin);
-      drawHexard(origin);
+      Triad.render(origin);
+      Hexard.render(origin);
       Analogous.render(origin);
-      return draw12ColorWheel(origin);
+      Color12.render(origin);
+      Tone8.render(origin);
+      return this;
     };
 
     return ColorControls;
@@ -160,7 +155,7 @@
   })();
 
   /*
-  #
+  # Complementary
   */
 
 
@@ -228,61 +223,160 @@
   })();
 
   /*
-  # draw Triad color wheel
+  Color Wheel base class
   */
 
 
-  drawTriad = function(origin) {
-    var colors, dtdd;
-    colors = [0, 1, 2].map(function(i) {
-      return origin.addHue(i * 120);
-    });
-    drawColorWheel(papers.triadWheel, colors);
-    dtdd = colors.map(function(color) {
-      var colorHexCode;
-      colorHexCode = color.toCssHexCode();
-      return "<dt style='background-color:" + colorHexCode + ";'></dt>    <dd>" + colorHexCode + "</dd>";
-    });
-    return $("#triad dl.color-list").html(dtdd.join(''));
-  };
+  ColorWheel = (function() {
+    function ColorWheel() {}
+
+    ColorWheel.createRaphael = function(id) {
+      return Raphael(id, $("#" + id).width(), $("#" + id).height());
+    };
+
+    ColorWheel.dtdd = function(origin) {
+      return this.colors(origin).map(function(color) {
+        var colorHexCode;
+        colorHexCode = color.toCssHexCode();
+        return "<dt style='background-color:" + colorHexCode + ";'></dt>      <dd>" + colorHexCode + "</dd>";
+      });
+    };
+
+    ColorWheel.draw = function(origin) {
+      return drawColorWheel(this.paper, this.colors(origin));
+    };
+
+    return ColorWheel;
+
+  })();
 
   /*
-  # draw Hexard color wheel
+  Triad Weel
   */
 
 
-  drawHexard = function(origin) {
-    var colors, dtdd;
-    colors = [0, 1, 2, 3, 4, 5].map(function(i) {
-      return origin.addHue(i * 60);
-    });
-    drawColorWheel(papers.hexardWheel, colors);
-    dtdd = colors.map(function(color) {
-      var colorHexCode;
-      colorHexCode = color.toCssHexCode();
-      return "<dt style='background-color:" + colorHexCode + ";'></dt>    <dd>" + colorHexCode + "</dd>";
-    });
-    return $("#hexard dl.color-list").html(dtdd.join(''));
-  };
+  Triad = (function(_super) {
+    __extends(Triad, _super);
+
+    function Triad() {
+      _ref = Triad.__super__.constructor.apply(this, arguments);
+      return _ref;
+    }
+
+    Triad.init = function() {
+      return this.paper = this.createRaphael("triad_wheel_svg");
+    };
+
+    Triad.colors = function(origin) {
+      return [0, 1, 2].map(function(i) {
+        return origin.addHue(i * 120);
+      });
+    };
+
+    Triad.render = function(origin) {
+      this.draw(origin);
+      return $("#triad dl.color-list").html(this.dtdd(origin).join(''));
+    };
+
+    return Triad;
+
+  })(ColorWheel);
 
   /*
-  # draw color wheel
+  Hexard Wheel
   */
 
 
-  draw12ColorWheel = function(origin) {
-    var colors, dtdd;
-    colors = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(function(i) {
-      return origin.addHue(i * 30);
-    });
-    drawColorWheel(papers.colorWheel, colors);
-    dtdd = colors.map(function(color) {
-      var colorHexCode;
-      colorHexCode = color.toCssHexCode();
-      return "<dt style='background-color:" + colorHexCode + ";'></dt>    <dd>" + colorHexCode + "</dd>";
-    });
-    return $("#color_wheel dl.color-list").html(dtdd.join(''));
-  };
+  Hexard = (function(_super) {
+    __extends(Hexard, _super);
+
+    function Hexard() {
+      _ref1 = Hexard.__super__.constructor.apply(this, arguments);
+      return _ref1;
+    }
+
+    Hexard.init = function() {
+      return this.paper = this.createRaphael("hexard_wheel_svg");
+    };
+
+    Hexard.colors = function(origin) {
+      return [0, 1, 2, 3, 4, 5].map(function(i) {
+        return origin.addHue(i * 60);
+      });
+    };
+
+    Hexard.render = function(origin) {
+      this.draw(origin);
+      return $("#hexard dl.color-list").html(this.dtdd(origin).join(''));
+    };
+
+    return Hexard;
+
+  })(ColorWheel);
+
+  /*
+  Color Wheel
+  */
+
+
+  Color12 = (function(_super) {
+    __extends(Color12, _super);
+
+    function Color12() {
+      _ref2 = Color12.__super__.constructor.apply(this, arguments);
+      return _ref2;
+    }
+
+    Color12.init = function() {
+      return this.paper = this.createRaphael("color_wheel_svg");
+    };
+
+    Color12.colors = function(origin) {
+      return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(function(i) {
+        return origin.addHue(i * 30);
+      });
+    };
+
+    Color12.render = function(origin) {
+      this.draw(origin);
+      return $("#color_wheel dl.color-list").html(this.dtdd(origin).join(''));
+    };
+
+    return Color12;
+
+  })(ColorWheel);
+
+  /*
+  Tone Color
+  */
+
+
+  Tone8 = (function(_super) {
+    __extends(Tone8, _super);
+
+    function Tone8() {
+      _ref3 = Tone8.__super__.constructor.apply(this, arguments);
+      return _ref3;
+    }
+
+    Tone8.init = function() {
+      return this.paper = this.createRaphael("tone_8_wheel_svg");
+    };
+
+    Tone8.colors = function(origin) {
+      return [0, 1, 2, 3, 4, 5, 6, 7].map(function(i) {
+        return origin.setSaturation(i * 32);
+      });
+    };
+
+    Tone8.render = function(origin) {
+      this.draw(origin);
+      return $("#tone_8_wheel dl.color-list").html(this.dtdd(origin).join(''));
+    };
+
+    return Tone8;
+
+  })(ColorWheel);
 
   /*
   # draw color wheel

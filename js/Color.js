@@ -58,6 +58,21 @@ if (typeof princessJS === "undefined"){
             var hsv = this.toHSV();
             return ns.Color.createFromHSV(hsv.h, hsv.s, hsv.v + v);
         };
+
+        this.setHue = function(h) {
+            var hsv = this.toHSV();
+            return ns.Color.createFromHSV(h, hsv.s, hsv.v);
+        };
+
+        this.setSaturation = function(s) {
+            var hsv = this.toHSV();
+            return ns.Color.createFromHSV(hsv.h, s, hsv.v);
+        };
+
+        this.setLightness = function(v) {
+            var hsv = this.toHSV();
+            return ns.Color.createFromHSV(hsv.h, hsv.s, v);
+        };
     };
 
     ns.Color.getRGB = function(hexCode){
